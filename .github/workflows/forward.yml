@@ -1,0 +1,35 @@
+name: forward-test
+
+on:
+  schedule:
+    - cron: "30 9 * * 1"         # every Monday
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: forward-test
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests numpy pandas scipy pyproj scikit-learn
+      - run: python forward_test.py
+      - name: Save results
+        run: |
+          git config user.name "lightning-map"
+          git config user.email "map@users.noreply.github.com"
+          git add docs
+          git diff --cached --quiet || git commit -m "forward test $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4; do
+            git pull --rebase && git push && break
+            sleep 8
+          done
