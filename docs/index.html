@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_628b6e870762d6db96e9318f5d11a18a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="position:fixed;top:10px;left:55px;z-index:9999;background:white;padding:10px 14px;border:1px solid #999;
+ border-radius:6px;max-width:340px;font:13px Arial">
+<b>Lightning risk map</b><br>
+<i>Conditional on detected lightning. This is not overall wildfire risk.</i><br>
+Each dot = a 0.1&deg; cell with lightning in the last 24 h. Colour = chance that a lightning fire follows.
+<div style="margin-top:6px"><div><span style='background:#fee08b;display:inline-block;width:14px;height:14px;margin-right:6px'></span>under 0.5%</div><div><span style='background:#fdae61;display:inline-block;width:14px;height:14px;margin-right:6px'></span>0.5 - 1%</div><div><span style='background:#f46d43;display:inline-block;width:14px;height:14px;margin-right:6px'></span>1 - 2%</div><div><span style='background:#d73027;display:inline-block;width:14px;height:14px;margin-right:6px'></span>2 - 5%</div><div><span style='background:#a50026;display:inline-block;width:14px;height:14px;margin-right:6px'></span>5 - 10%</div><div><span style='background:#4d0013;display:inline-block;width:14px;height:14px;margin-right:6px'></span>over 10%</div></div>
+<div style="margin-top:6px;font-size:12px">Dashed box = north of 52&deg;N (low confidence). Covers Canada south of 66&deg;N.</div>
+<div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: short lightning history (0 of 15 days). Probabilities are NOT reliable yet.</div>
+<div style="margin-top:6px;font-size:11px;color:#555">Lightning to 2026-10-11 06:20 UTC | weather 2026-10-11T07:00Z<br>
+NDVI composite 2026-09-14 | page built 2026-10-11 07:35 UTC</div>
+</div>
+    
+            <div class="folium-map" id="map_628b6e870762d6db96e9318f5d11a18a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_628b6e870762d6db96e9318f5d11a18a = L.map(
+                "map_628b6e870762d6db96e9318f5d11a18a",
+                {
+                    center: [54.0, -96.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 4,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_7ca7d2241f633ce2013cb168c2e80f0f = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Tiles \u0026copy; Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_7ca7d2241f633ce2013cb168c2e80f0f.addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var rectangle_701978a8d30f6116f1e91c6c512a4855 = L.rectangle(
+                [[48.650000000000006, -75.75], [48.75, -75.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_a2cab12c792cf65966d8ee720e71702c = L.circleMarker(
+                [48.7, -75.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_a2cab12c792cf65966d8ee720e71702c.bindTooltip(
+                `<div>
+                     <b>0.24%</b> chance a fire follows<br>QC | lat 48.7, lon -75.7<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_aba823f1229b7ea36538df7fbca5c024 = L.rectangle(
+                [[48.650000000000006, -75.64999999999999], [48.75, -75.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_269fe586258599c7065507c4ac8f27a6 = L.circleMarker(
+                [48.7, -75.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_269fe586258599c7065507c4ac8f27a6.bindTooltip(
+                `<div>
+                     <b>0.30%</b> chance a fire follows<br>QC | lat 48.7, lon -75.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_87eab79e3aec18d7fd096e6826f6f4e7 = L.rectangle(
+                [[48.650000000000006, -75.55], [48.75, -75.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_bf4f9e7d8c0e6f06669756c91c937925 = L.circleMarker(
+                [48.7, -75.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_bf4f9e7d8c0e6f06669756c91c937925.bindTooltip(
+                `<div>
+                     <b>0.16%</b> chance a fire follows<br>QC | lat 48.7, lon -75.5<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_4e12ded9308a0fd930ae3e7a0a18ddc5 = L.rectangle(
+                [[48.650000000000006, -75.45], [48.75, -75.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_093a21c56316d7ef077cbcfb5954429b = L.circleMarker(
+                [48.7, -75.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_093a21c56316d7ef077cbcfb5954429b.bindTooltip(
+                `<div>
+                     <b>0.35%</b> chance a fire follows<br>QC | lat 48.7, lon -75.4<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_3ed46896975bbf603d09e8f5ec7a78b3 = L.rectangle(
+                [[48.650000000000006, -75.35], [48.75, -75.25]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_fc33ba9da067bfecbec5463f8183ebf5 = L.circleMarker(
+                [48.7, -75.3],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_fc33ba9da067bfecbec5463f8183ebf5.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>QC | lat 48.7, lon -75.3<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_c879d8c6d9f31daa56441aa23568778b = L.rectangle(
+                [[48.650000000000006, -75.25], [48.75, -75.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_81757ed3b51170a7b60cd32e34033cce = L.circleMarker(
+                [48.7, -75.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_81757ed3b51170a7b60cd32e34033cce.bindTooltip(
+                `<div>
+                     <b>0.12%</b> chance a fire follows<br>QC | lat 48.7, lon -75.2<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_15b36e371739fd6f8fd953c56f8a2bac = L.rectangle(
+                [[48.75, -75.75], [48.849999999999994, -75.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3a548b11560ee33d1aab67e2479c5300 = L.circleMarker(
+                [48.8, -75.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3a548b11560ee33d1aab67e2479c5300.bindTooltip(
+                `<div>
+                     <b>0.24%</b> chance a fire follows<br>QC | lat 48.8, lon -75.7<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_1253df7e07c5fc5cedd84a5cfa728290 = L.rectangle(
+                [[48.75, -75.64999999999999], [48.849999999999994, -75.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_51181d2ae71198fbb2e7703198ea87eb = L.circleMarker(
+                [48.8, -75.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_51181d2ae71198fbb2e7703198ea87eb.bindTooltip(
+                `<div>
+                     <b>0.27%</b> chance a fire follows<br>QC | lat 48.8, lon -75.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_38e30be8dbf1572c7bf5f0c78ac36629 = L.rectangle(
+                [[48.75, -75.55], [48.849999999999994, -75.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_fd452e73cd4c561a97d4d44a3e001899 = L.circleMarker(
+                [48.8, -75.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_fd452e73cd4c561a97d4d44a3e001899.bindTooltip(
+                `<div>
+                     <b>0.21%</b> chance a fire follows<br>QC | lat 48.8, lon -75.5<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_8675f3ab3f24c9eb35caa3a2ce5fe14b = L.rectangle(
+                [[48.75, -75.45], [48.849999999999994, -75.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_823296ef48529c16f7da2d2112f13e51 = L.circleMarker(
+                [48.8, -75.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_823296ef48529c16f7da2d2112f13e51.bindTooltip(
+                `<div>
+                     <b>0.16%</b> chance a fire follows<br>QC | lat 48.8, lon -75.4<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5ebd0615d696f1f2c83e72e69b34204d = L.rectangle(
+                [[48.75, -75.35], [48.849999999999994, -75.25]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_a7b15b9d7838a5bfb1c6f80f31dac775 = L.circleMarker(
+                [48.8, -75.3],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_a7b15b9d7838a5bfb1c6f80f31dac775.bindTooltip(
+                `<div>
+                     <b>0.15%</b> chance a fire follows<br>QC | lat 48.8, lon -75.3<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_3efa03f2b6f683ae4819b27b748f96c8 = L.rectangle(
+                [[48.75, -75.25], [48.849999999999994, -75.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_7001d56abd99cba2828b4281f2a0ab2f = L.circleMarker(
+                [48.8, -75.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_7001d56abd99cba2828b4281f2a0ab2f.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>QC | lat 48.8, lon -75.2<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5745c4694f1efb19c4fc3bfacecc099d = L.rectangle(
+                [[48.75, -74.64999999999999], [48.849999999999994, -74.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_40cb0bcc604b15a20862f7e603435472 = L.circleMarker(
+                [48.8, -74.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_40cb0bcc604b15a20862f7e603435472.bindTooltip(
+                `<div>
+                     <b>0.11%</b> chance a fire follows<br>QC | lat 48.8, lon -74.6<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5b4e4647a0ccbd12fbb816899fcc8a18 = L.rectangle(
+                [[48.75, -74.55], [48.849999999999994, -74.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_072dc0cda47da3ebec89a3be5042729b = L.circleMarker(
+                [48.8, -74.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_072dc0cda47da3ebec89a3be5042729b.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>QC | lat 48.8, lon -74.5<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6e2c684d93cc8446bdf732c4c841e09c = L.rectangle(
+                [[48.75, -74.45], [48.849999999999994, -74.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_5485728298cf4f017aeab06bc240b1f7 = L.circleMarker(
+                [48.8, -74.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_5485728298cf4f017aeab06bc240b1f7.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>QC | lat 48.8, lon -74.4<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_7709284130ff4eb3cededf4c608854ee = L.rectangle(
+                [[48.85, -75.75], [48.949999999999996, -75.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_d80b8346f9acccf22c3a8297ef9e7c6d = L.circleMarker(
+                [48.9, -75.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_d80b8346f9acccf22c3a8297ef9e7c6d.bindTooltip(
+                `<div>
+                     <b>0.28%</b> chance a fire follows<br>QC | lat 48.9, lon -75.7<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_65e8e6704bf4a7586fedb002f51a3f54 = L.rectangle(
+                [[48.85, -75.64999999999999], [48.949999999999996, -75.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_cf0ce1451d456e2b7640b1dbc83758d1 = L.circleMarker(
+                [48.9, -75.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_cf0ce1451d456e2b7640b1dbc83758d1.bindTooltip(
+                `<div>
+                     <b>0.27%</b> chance a fire follows<br>QC | lat 48.9, lon -75.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_15362788c8d60bba95337c2737fd0194 = L.rectangle(
+                [[48.85, -75.55], [48.949999999999996, -75.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_ee088a2cd0f8c0fb4469c85949b505b2 = L.circleMarker(
+                [48.9, -75.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_ee088a2cd0f8c0fb4469c85949b505b2.bindTooltip(
+                `<div>
+                     <b>0.20%</b> chance a fire follows<br>QC | lat 48.9, lon -75.5<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_fe74315fa3f2045aa53a227620dcbcb8 = L.rectangle(
+                [[48.85, -75.45], [48.949999999999996, -75.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_73646d5dca0b3b04f6ea64143d491641 = L.circleMarker(
+                [48.9, -75.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_73646d5dca0b3b04f6ea64143d491641.bindTooltip(
+                `<div>
+                     <b>0.13%</b> chance a fire follows<br>QC | lat 48.9, lon -75.4<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_39174967644f1866080281bfa819d2f9 = L.rectangle(
+                [[48.85, -75.35], [48.949999999999996, -75.25]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_4b44d639b018267ac63103c741bcc950 = L.circleMarker(
+                [48.9, -75.3],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_4b44d639b018267ac63103c741bcc950.bindTooltip(
+                `<div>
+                     <b>0.17%</b> chance a fire follows<br>QC | lat 48.9, lon -75.3<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_2ae4f9839cfb7dbc83316ff64768648e = L.rectangle(
+                [[48.85, -75.25], [48.949999999999996, -75.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_8a113d698629e1960887fa2e8f57ed7c = L.circleMarker(
+                [48.9, -75.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_8a113d698629e1960887fa2e8f57ed7c.bindTooltip(
+                `<div>
+                     <b>0.15%</b> chance a fire follows<br>QC | lat 48.9, lon -75.2<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_724cd5e571a2ad5818d7c9ff2ad78146 = L.rectangle(
+                [[48.85, -74.75], [48.949999999999996, -74.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_31918bbcc8662c1b6b91f9d117212947 = L.circleMarker(
+                [48.9, -74.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_31918bbcc8662c1b6b91f9d117212947.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>QC | lat 48.9, lon -74.7<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_739cc774f3353f945e70757d52977322 = L.rectangle(
+                [[48.85, -74.64999999999999], [48.949999999999996, -74.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_13fdd2abeb0a0586aed9ad7bf72801c3 = L.circleMarker(
+                [48.9, -74.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_13fdd2abeb0a0586aed9ad7bf72801c3.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>QC | lat 48.9, lon -74.6<br>lightning pixels (24 h): 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_77e0d8a2b9c2367eb83cd7c4a790ec15 = L.rectangle(
+                [[48.85, -74.55], [48.949999999999996, -74.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_473d164c949f0eb48ca5e1d8ce39e9cd = L.circleMarker(
+                [48.9, -74.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_473d164c949f0eb48ca5e1d8ce39e9cd.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>QC | lat 48.9, lon -74.5<br>lightning pixels (24 h): 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5716593249a203454effbb2deaff63e7 = L.rectangle(
+                [[48.85, -74.45], [48.949999999999996, -74.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_2bcbd09702ae131b0545781d44193f7e = L.circleMarker(
+                [48.9, -74.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_2bcbd09702ae131b0545781d44193f7e.bindTooltip(
+                `<div>
+                     <b>0.05%</b> chance a fire follows<br>QC | lat 48.9, lon -74.4<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_568b1f597628ceb0fd91d7df3463ea44 = L.rectangle(
+                [[48.95, -75.64999999999999], [49.05, -75.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_a25542c4167e873d0f092b1e9eb38bfa = L.circleMarker(
+                [49.0, -75.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_a25542c4167e873d0f092b1e9eb38bfa.bindTooltip(
+                `<div>
+                     <b>0.29%</b> chance a fire follows<br>QC | lat 49.0, lon -75.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_a1fc95c85c06ebd940ae0801150de129 = L.rectangle(
+                [[48.95, -75.55], [49.05, -75.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_ef0005022fa6f28c32597170908562f7 = L.circleMarker(
+                [49.0, -75.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_ef0005022fa6f28c32597170908562f7.bindTooltip(
+                `<div>
+                     <b>0.20%</b> chance a fire follows<br>QC | lat 49.0, lon -75.5<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_9927f00610db64661571f288a256cd22 = L.rectangle(
+                [[48.95, -75.45], [49.05, -75.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_9efc9d994b65bcf6db3fc247f5675c8f = L.circleMarker(
+                [49.0, -75.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_9efc9d994b65bcf6db3fc247f5675c8f.bindTooltip(
+                `<div>
+                     <b>0.12%</b> chance a fire follows<br>QC | lat 49.0, lon -75.4<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_af6574b931b549e40e66c1ce2e27bb9c = L.rectangle(
+                [[48.95, -74.75], [49.05, -74.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_e05d3aec60a7affbf36bde8eaaa44d49 = L.circleMarker(
+                [49.0, -74.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_e05d3aec60a7affbf36bde8eaaa44d49.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>QC | lat 49.0, lon -74.7<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_32f92c64d4691f0a6c8faee38257f09f = L.rectangle(
+                [[48.95, -74.64999999999999], [49.05, -74.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_5995be45729bc564ee3fab8b4b822f8c = L.circleMarker(
+                [49.0, -74.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_5995be45729bc564ee3fab8b4b822f8c.bindTooltip(
+                `<div>
+                     <b>0.11%</b> chance a fire follows<br>QC | lat 49.0, lon -74.6<br>lightning pixels (24 h): 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_aef6a29c30d8b1492d95516ce99dc148 = L.rectangle(
+                [[48.95, -74.55], [49.05, -74.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_1c42d6608c5802dbe421e3c6f9086e8c = L.circleMarker(
+                [49.0, -74.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_1c42d6608c5802dbe421e3c6f9086e8c.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>QC | lat 49.0, lon -74.5<br>lightning pixels (24 h): 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_69a9960933bdce0d33ec735733401e75 = L.rectangle(
+                [[48.95, -74.45], [49.05, -74.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_ad475441d385b135925cf8fc151eb04d = L.circleMarker(
+                [49.0, -74.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_ad475441d385b135925cf8fc151eb04d.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>QC | lat 49.0, lon -74.4<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_065387fe465e04478f980aceb818579f = L.rectangle(
+                [[49.050000000000004, -75.64999999999999], [49.15, -75.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_bdd7a4155237075200dd63f911acd558 = L.circleMarker(
+                [49.1, -75.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_bdd7a4155237075200dd63f911acd558.bindTooltip(
+                `<div>
+                     <b>0.13%</b> chance a fire follows<br>QC | lat 49.1, lon -75.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ac2340a0f890b28dedd8a500c5ffc3d6 = L.rectangle(
+                [[49.050000000000004, -75.55], [49.15, -75.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_b49735e04d25ea7cd3049625c1a42a8f = L.circleMarker(
+                [49.1, -75.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_b49735e04d25ea7cd3049625c1a42a8f.bindTooltip(
+                `<div>
+                     <b>0.13%</b> chance a fire follows<br>QC | lat 49.1, lon -75.5<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_4b0a16077f83d9a015e455980a0c12b8 = L.rectangle(
+                [[49.050000000000004, -75.45], [49.15, -75.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_785393e95de383e71e3ff5cc8f125afc = L.circleMarker(
+                [49.1, -75.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_785393e95de383e71e3ff5cc8f125afc.bindTooltip(
+                `<div>
+                     <b>0.21%</b> chance a fire follows<br>QC | lat 49.1, lon -75.4<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_b15e6dc77170ce56b1630d50b728e907 = L.rectangle(
+                [[49.050000000000004, -74.75], [49.15, -74.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_2013d148a775d8029801d53bb495f213 = L.circleMarker(
+                [49.1, -74.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_2013d148a775d8029801d53bb495f213.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>QC | lat 49.1, lon -74.7<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_f09e1f53285a30769700a3ecf8141e22 = L.rectangle(
+                [[49.050000000000004, -74.64999999999999], [49.15, -74.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_cded9645960fc199de48e44d6142e147 = L.circleMarker(
+                [49.1, -74.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_cded9645960fc199de48e44d6142e147.bindTooltip(
+                `<div>
+                     <b>0.12%</b> chance a fire follows<br>QC | lat 49.1, lon -74.6<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_94dd17b5e2905d72107707b650eadf02 = L.rectangle(
+                [[49.050000000000004, -74.55], [49.15, -74.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_ac5d17676a8bd556f42e998dd8d47a42 = L.circleMarker(
+                [49.1, -74.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_ac5d17676a8bd556f42e998dd8d47a42.bindTooltip(
+                `<div>
+                     <b>0.13%</b> chance a fire follows<br>QC | lat 49.1, lon -74.5<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_1b97b6d641abb2ae4dbb23159aabd7d8 = L.rectangle(
+                [[49.150000000000006, -75.64999999999999], [49.25, -75.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_7891fb55a0d027d4018307a7e199ec2a = L.circleMarker(
+                [49.2, -75.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_7891fb55a0d027d4018307a7e199ec2a.bindTooltip(
+                `<div>
+                     <b>0.13%</b> chance a fire follows<br>QC | lat 49.2, lon -75.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5cc8dbbc80447943391df1f86d55c96b = L.rectangle(
+                [[49.150000000000006, -75.55], [49.25, -75.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3efd0be764c9099bfd2cb0e074f10017 = L.circleMarker(
+                [49.2, -75.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3efd0be764c9099bfd2cb0e074f10017.bindTooltip(
+                `<div>
+                     <b>0.27%</b> chance a fire follows<br>QC | lat 49.2, lon -75.5<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6e174f1a6d915c2bd6b8282d6268de34 = L.rectangle(
+                [[49.150000000000006, -75.45], [49.25, -75.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_bf28bf2affd19aa9ce4076a31da5dc41 = L.circleMarker(
+                [49.2, -75.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_bf28bf2affd19aa9ce4076a31da5dc41.bindTooltip(
+                `<div>
+                     <b>0.23%</b> chance a fire follows<br>QC | lat 49.2, lon -75.4<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_9534949ebc330c3e946b28fdec450a72 = L.rectangle(
+                [[50.550000000000004, -90.25], [50.65, -90.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_fc62ff43682c178407216bd0d8faf01b = L.circleMarker(
+                [50.6, -90.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_fc62ff43682c178407216bd0d8faf01b.bindTooltip(
+                `<div>
+                     <b>0.05%</b> chance a fire follows<br>ON | lat 50.6, lon -90.2<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_b69b566d9a225945d28415f1941b0d10 = L.rectangle(
+                [[50.550000000000004, -90.14999999999999], [50.65, -90.05]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_1984d35f4b6e1a836833766d7699342f = L.circleMarker(
+                [50.6, -90.1],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_1984d35f4b6e1a836833766d7699342f.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>ON | lat 50.6, lon -90.1<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_db2226f1555f74271c6aa57b7982bee3 = L.rectangle(
+                [[50.550000000000004, -90.05], [50.65, -89.95]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_7541fdd6a9cd1012f22f26f055fdab4b = L.circleMarker(
+                [50.6, -90.0],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_7541fdd6a9cd1012f22f26f055fdab4b.bindTooltip(
+                `<div>
+                     <b>0.06%</b> chance a fire follows<br>ON | lat 50.6, lon -90.0<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_0498f3d216613b9d64bc649f053def2d = L.rectangle(
+                [[50.650000000000006, -90.25], [50.75, -90.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_128acc636e0cc2d337a8fdc61692b633 = L.circleMarker(
+                [50.7, -90.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_128acc636e0cc2d337a8fdc61692b633.bindTooltip(
+                `<div>
+                     <b>0.06%</b> chance a fire follows<br>ON | lat 50.7, lon -90.2<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_9d8f3b1b0cfa3d7447d5d9bfbbf4e0a4 = L.rectangle(
+                [[50.650000000000006, -90.14999999999999], [50.75, -90.05]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_2b5157f218291c6ed4502d6de0ed5b78 = L.circleMarker(
+                [50.7, -90.1],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_2b5157f218291c6ed4502d6de0ed5b78.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>ON | lat 50.7, lon -90.1<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ab8f8058df856c70ecee448a8bd0652d = L.rectangle(
+                [[50.650000000000006, -90.05], [50.75, -89.95]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_496f26635fa731696884626b3ab883ad = L.circleMarker(
+                [50.7, -90.0],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_496f26635fa731696884626b3ab883ad.bindTooltip(
+                `<div>
+                     <b>0.06%</b> chance a fire follows<br>ON | lat 50.7, lon -90.0<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_23a74f08f23e7e48e278933a7b2e7eaa = L.rectangle(
+                [[50.75, -90.25], [50.849999999999994, -90.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_050bbd7fa5ba8cb45e8d361a22a417a8 = L.circleMarker(
+                [50.8, -90.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_050bbd7fa5ba8cb45e8d361a22a417a8.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>ON | lat 50.8, lon -90.2<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5ea27bf29a5dad3e829c2c7d53c1f1bc = L.rectangle(
+                [[50.75, -90.14999999999999], [50.849999999999994, -90.05]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_8d33e750fbd7ba708ecc76b585e9c092 = L.circleMarker(
+                [50.8, -90.1],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_8d33e750fbd7ba708ecc76b585e9c092.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>ON | lat 50.8, lon -90.1<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_1cea20d91670066b5fcb47faee12e5b9 = L.rectangle(
+                [[50.75, -90.05], [50.849999999999994, -89.95]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_71dd2af763e1b3e748fa7c4c34a8c596 = L.circleMarker(
+                [50.8, -90.0],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_71dd2af763e1b3e748fa7c4c34a8c596.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 50.8, lon -90.0<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_5b471a26b7fe55a9f02bcf514e25a9b4 = L.rectangle(
+                [[50.95, -86.95], [51.05, -86.85000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_de294169f81d79a2e5e2c250ca35ade8 = L.circleMarker(
+                [51.0, -86.9],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_de294169f81d79a2e5e2c250ca35ade8.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>ON | lat 51.0, lon -86.9<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_093c019fb83ee8b01476c18bc11e60ef = L.rectangle(
+                [[50.95, -86.85], [51.05, -86.75]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_7bf48c0cadf8aaf8fff6ba22239ec52b = L.circleMarker(
+                [51.0, -86.8],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_7bf48c0cadf8aaf8fff6ba22239ec52b.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>ON | lat 51.0, lon -86.8<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_90eb7a2a2ad5a1f6223b912b7e4e2625 = L.rectangle(
+                [[50.95, -86.75], [51.05, -86.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_b0d01836aabf302dc04de39b27870a2a = L.circleMarker(
+                [51.0, -86.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_b0d01836aabf302dc04de39b27870a2a.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>ON | lat 51.0, lon -86.7<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_e1bac286b8aa32aac2a18f7add56c9dd = L.rectangle(
+                [[50.95, -86.64999999999999], [51.05, -86.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_ccf18931f1fc49571ad35e4512489da3 = L.circleMarker(
+                [51.0, -86.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_ccf18931f1fc49571ad35e4512489da3.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>ON | lat 51.0, lon -86.6<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_4fa117163b133ea4623f3e4821720b91 = L.rectangle(
+                [[50.95, -86.55], [51.05, -86.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_09b82b9ef8880cfde26f46f175fd0ed2 = L.circleMarker(
+                [51.0, -86.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_09b82b9ef8880cfde26f46f175fd0ed2.bindTooltip(
+                `<div>
+                     <b>0.14%</b> chance a fire follows<br>ON | lat 51.0, lon -86.5<br>lightning pixels (24 h): 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_883f640ece1a01e2c158f443dbc7742a = L.rectangle(
+                [[50.95, -86.45], [51.05, -86.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3f85c8d31b15b25d3cf50f2ab5324966 = L.circleMarker(
+                [51.0, -86.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3f85c8d31b15b25d3cf50f2ab5324966.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.0, lon -86.4<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_e4d5c969fb021ead82f04ed2f633d2a3 = L.rectangle(
+                [[50.95, -86.35], [51.05, -86.25]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_7464d81c8042c295641ebceb47f6dca0 = L.circleMarker(
+                [51.0, -86.3],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_7464d81c8042c295641ebceb47f6dca0.bindTooltip(
+                `<div>
+                     <b>0.11%</b> chance a fire follows<br>ON | lat 51.0, lon -86.3<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_144d6d556791b7846a4f810734865fef = L.rectangle(
+                [[50.95, -86.25], [51.05, -86.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_4bd5232b69cf0ded73b8346ae34d79aa = L.circleMarker(
+                [51.0, -86.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_4bd5232b69cf0ded73b8346ae34d79aa.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.0, lon -86.2<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_86721cd5b6a2623c1b54e6b10dae2c55 = L.rectangle(
+                [[51.050000000000004, -86.95], [51.15, -86.85000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_9c2d0b52c22565e8d71765b09b70743d = L.circleMarker(
+                [51.1, -86.9],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_9c2d0b52c22565e8d71765b09b70743d.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.1, lon -86.9<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_bbbea8577ff604253028ce877f504d53 = L.rectangle(
+                [[51.050000000000004, -86.85], [51.15, -86.75]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_69a5ae22c209d706e2b6e770f1f74fa5 = L.circleMarker(
+                [51.1, -86.8],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_69a5ae22c209d706e2b6e770f1f74fa5.bindTooltip(
+                `<div>
+                     <b>0.11%</b> chance a fire follows<br>ON | lat 51.1, lon -86.8<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_388be196618e4ef7d596e922954c7da7 = L.rectangle(
+                [[51.050000000000004, -86.75], [51.15, -86.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_86aee0f94d015e3cd23c89eb3bb7620c = L.circleMarker(
+                [51.1, -86.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_86aee0f94d015e3cd23c89eb3bb7620c.bindTooltip(
+                `<div>
+                     <b>0.05%</b> chance a fire follows<br>ON | lat 51.1, lon -86.7<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_fbf35e9b7069845a2a4e71dc5b139459 = L.rectangle(
+                [[51.050000000000004, -86.64999999999999], [51.15, -86.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_0f8f65d5b82fb370a6a0b727b9518864 = L.circleMarker(
+                [51.1, -86.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_0f8f65d5b82fb370a6a0b727b9518864.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.1, lon -86.6<br>lightning pixels (24 h): 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_059b577ce292f8f5baf73da95a16a07c = L.rectangle(
+                [[51.050000000000004, -86.55], [51.15, -86.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_ab7f58ce322f4f5b796671381afb2ad5 = L.circleMarker(
+                [51.1, -86.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_ab7f58ce322f4f5b796671381afb2ad5.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.1, lon -86.5<br>lightning pixels (24 h): 8
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_4343ff8b43510fbae280d6326274ce66 = L.rectangle(
+                [[51.050000000000004, -86.45], [51.15, -86.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_08d5845a23f956e9f6a3df618bba517b = L.circleMarker(
+                [51.1, -86.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_08d5845a23f956e9f6a3df618bba517b.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.1, lon -86.4<br>lightning pixels (24 h): 9
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_23d02b6436dab45435d186cfc61926b3 = L.rectangle(
+                [[51.050000000000004, -86.35], [51.15, -86.25]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_561b47d5cda6a7bc54cb709b2b95529c = L.circleMarker(
+                [51.1, -86.3],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_561b47d5cda6a7bc54cb709b2b95529c.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>ON | lat 51.1, lon -86.3<br>lightning pixels (24 h): 6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_b8dfff46d03fa4bbf1b4f6b50b3cd454 = L.rectangle(
+                [[51.050000000000004, -86.25], [51.15, -86.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_160404e0a5e18e5743cebb2124220c53 = L.circleMarker(
+                [51.1, -86.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_160404e0a5e18e5743cebb2124220c53.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.1, lon -86.2<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_fd9e482e32013cd4f76bd3ae4a4602d7 = L.rectangle(
+                [[51.150000000000006, -86.95], [51.25, -86.85000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3e6a0f6be060f91b7ce796ce4c40f3e7 = L.circleMarker(
+                [51.2, -86.9],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3e6a0f6be060f91b7ce796ce4c40f3e7.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.2, lon -86.9<br>lightning pixels (24 h): 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_67b3552619d0e5961afb2b413b714e74 = L.rectangle(
+                [[51.150000000000006, -86.85], [51.25, -86.75]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_4eb89babba9afa1bac345ebff65d6ad6 = L.circleMarker(
+                [51.2, -86.8],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_4eb89babba9afa1bac345ebff65d6ad6.bindTooltip(
+                `<div>
+                     <b>0.11%</b> chance a fire follows<br>ON | lat 51.2, lon -86.8<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_3aabd9338f64a6977bb434a891c62d21 = L.rectangle(
+                [[51.150000000000006, -86.75], [51.25, -86.65]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3b581e0490792a147908a59320be6344 = L.circleMarker(
+                [51.2, -86.7],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3b581e0490792a147908a59320be6344.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.2, lon -86.7<br>lightning pixels (24 h): 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_7e5a77c38bbf5f85b54aa76cb0c415c2 = L.rectangle(
+                [[51.150000000000006, -86.64999999999999], [51.25, -86.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_e3189368c6a11b74f46b737f81eb4506 = L.circleMarker(
+                [51.2, -86.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_e3189368c6a11b74f46b737f81eb4506.bindTooltip(
+                `<div>
+                     <b>0.06%</b> chance a fire follows<br>ON | lat 51.2, lon -86.6<br>lightning pixels (24 h): 7
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_116a1f800bbb045f5cacc13f754beade = L.rectangle(
+                [[51.150000000000006, -86.55], [51.25, -86.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_92e7021a3b6a9a9089570902995bd4d2 = L.circleMarker(
+                [51.2, -86.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_92e7021a3b6a9a9089570902995bd4d2.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.2, lon -86.5<br>lightning pixels (24 h): 10
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_4df85e5c414ab75252fd968ac11f022d = L.rectangle(
+                [[51.150000000000006, -86.45], [51.25, -86.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_b4df960cbfa706cb45ceca6518cc251e = L.circleMarker(
+                [51.2, -86.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_b4df960cbfa706cb45ceca6518cc251e.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.2, lon -86.4<br>lightning pixels (24 h): 11
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_6e5673617c229285776e2863dfd08a44 = L.rectangle(
+                [[51.150000000000006, -86.35], [51.25, -86.25]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3ef229fffd9ab1c6bd9a8a9f51dd59e9 = L.circleMarker(
+                [51.2, -86.3],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3ef229fffd9ab1c6bd9a8a9f51dd59e9.bindTooltip(
+                `<div>
+                     <b>0.05%</b> chance a fire follows<br>ON | lat 51.2, lon -86.3<br>lightning pixels (24 h): 6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_f3bd6a2b8660b259c8f8b001494cf408 = L.rectangle(
+                [[51.150000000000006, -86.25], [51.25, -86.15]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3f61fbde0e577f50e9869a090c4ef52e = L.circleMarker(
+                [51.2, -86.2],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3f61fbde0e577f50e9869a090c4ef52e.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.2, lon -86.2<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ad88e7e6768bcfdabb7f1fbbe5c20c14 = L.rectangle(
+                [[51.25, -86.64999999999999], [51.349999999999994, -86.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_7490272b4aeb1f5fb90948c50a79e488 = L.circleMarker(
+                [51.3, -86.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_7490272b4aeb1f5fb90948c50a79e488.bindTooltip(
+                `<div>
+                     <b>0.09%</b> chance a fire follows<br>ON | lat 51.3, lon -86.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_ce303e16b07d0379d6d65a997d2a780d = L.rectangle(
+                [[51.25, -86.55], [51.349999999999994, -86.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_b8e37a3af4dbe86bfa7fef47971c0563 = L.circleMarker(
+                [51.3, -86.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_b8e37a3af4dbe86bfa7fef47971c0563.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.3, lon -86.5<br>lightning pixels (24 h): 6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_23c2fce8704c451f74d1d9d9c49685a0 = L.rectangle(
+                [[51.25, -86.45], [51.349999999999994, -86.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_cc2c88688e0cae2d0e50d65502f4370d = L.circleMarker(
+                [51.3, -86.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_cc2c88688e0cae2d0e50d65502f4370d.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.3, lon -86.4<br>lightning pixels (24 h): 6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_db2497702ee7db4e2a90b295116c97a2 = L.rectangle(
+                [[51.25, -86.35], [51.349999999999994, -86.25]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_1e0f277e621692fd1dfc4c8f91b44762 = L.circleMarker(
+                [51.3, -86.3],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_1e0f277e621692fd1dfc4c8f91b44762.bindTooltip(
+                `<div>
+                     <b>0.07%</b> chance a fire follows<br>ON | lat 51.3, lon -86.3<br>lightning pixels (24 h): 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_4c3d51e2f2a6ea682d886e104445d1b9 = L.rectangle(
+                [[51.35, -86.64999999999999], [51.449999999999996, -86.55]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_e0e95c998547b661715cecea0395ea09 = L.circleMarker(
+                [51.4, -86.6],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_e0e95c998547b661715cecea0395ea09.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.4, lon -86.6<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_79adc8b3e0b5e68bd03ce18fadce7be9 = L.rectangle(
+                [[51.35, -86.55], [51.449999999999996, -86.45]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_0bc94ac0558f8daec073b935d9cc2c66 = L.circleMarker(
+                [51.4, -86.5],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_0bc94ac0558f8daec073b935d9cc2c66.bindTooltip(
+                `<div>
+                     <b>0.10%</b> chance a fire follows<br>ON | lat 51.4, lon -86.5<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var rectangle_a502767df85b83a47d152c4ce0fdbc9e = L.rectangle(
+                [[51.35, -86.45], [51.449999999999996, -86.35000000000001]],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.75, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            var circle_marker_3484b2e13e9b991eb8f0e16685bda695 = L.circleMarker(
+                [51.4, -86.4],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(map_628b6e870762d6db96e9318f5d11a18a);
+        
+    
+            circle_marker_3484b2e13e9b991eb8f0e16685bda695.bindTooltip(
+                `<div>
+                     <b>0.08%</b> chance a fire follows<br>ON | lat 51.4, lon -86.4<br>lightning pixels (24 h): 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            map_628b6e870762d6db96e9318f5d11a18a.fitBounds(
+                [[47.7, -91.2], [52.4, -73.4]],
+                {}
+            );
+        
+</script>
+</html>
