@@ -1,0 +1,32 @@
+name: record-lightning
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"     # every 2 hours (the server only keeps ~3 hours)
+  workflow_dispatch: {}          # lets you press "Run workflow" by hand
+
+permissions:
+  contents: write
+
+concurrency:
+  group: record-lightning
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests numpy pandas rasterio
+      - run: python record_lightning.py --out data
+      - name: Save new data
+        run: |
+          git config user.name "lightning-recorder"
+          git config user.email "recorder@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "lightning data $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
