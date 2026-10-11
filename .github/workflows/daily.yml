@@ -1,0 +1,36 @@
+name: daily-score-and-map
+
+on:
+  schedule:
+    - cron: "40 */3 * * *"       # every 3 hours, 20+ minutes after the lightning recorder
+  workflow_dispatch: {}            # lets you press "Run workflow" by hand
+
+permissions:
+  contents: write
+
+concurrency:
+  group: score-and-map
+  cancel-in-progress: false
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests numpy pandas scipy pyproj rasterio folium
+      - run: pip install -q -r static/requirements.txt      # same lightgbm / scikit-learn versions as Colab
+      - run: python pipeline.py
+      - name: Save results
+        run: |
+          git config user.name "lightning-map"
+          git config user.email "map@users.noreply.github.com"
+          git add docs archive cache
+          git diff --cached --quiet || git commit -m "map $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4; do
+            git pull --rebase && git push && break
+            sleep 8
+          done
