@@ -336,6 +336,15 @@ BANDS = [(0.005, "#ffffb2", "under 0.5% (real: about 0.2%)"), (0.009, "#fecc5c",
          (0.016, "#fd8d3c", "0.9 - 1.6% (real: about 1.6%)"), (0.035, "#f03b20", "1.6 - 3.5% (real: about 2.7%)"),
          (0.08, "#bd0026", "3.5 - 8% (real: about 5.5%)"), (0.23, "#7a0177", "8 - 23% (real: about 11%)"), (9, "#240046", "over 23% (real: about 26%)")]
 # "real" = measured fire rate inside each band on the 2023-24 test years (step 38). Bands 8%+ show ~1.25-1.35x too high, so real is lower.
+# bands from static/risk_bands_v7.json (written by Colab step 39 from 21 years of out-of-sample scores); the list above is the fallback
+try:
+    import json as _json
+    _rb = _json.load(open(f"{STATIC}/risk_bands_v7.json"))
+    BANDS = [(float(b["upper"]), b["color"], b["label"]) for b in _rb["bands"]]
+    assert len(BANDS) >= 5 and BANDS[-1][0] >= 1
+    print("risk bands: from risk_bands_v7.json,", len(BANDS), "bands")
+except Exception as _e:
+    print("risk bands: built-in fallback (", type(_e).__name__, ")")
 def color(p):
     for lim, c, _ in BANDS:
         if p < lim:
