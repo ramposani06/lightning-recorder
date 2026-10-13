@@ -139,18 +139,16 @@ def load_ndvi(grid):
             c = pd.read_csv(cache)
             if str(c["composite_start"].iloc[0]) == ps and len(c) == len(grid):
                 return key(c), "auto, cached"
-        img = coll.filterDate(ps, (period + pd.Timedelta(days=16)).strftime("%Y-%m-%d")).mosaic().select(["NDVI"])
-        vals = np.full(len(grid), np.nan)
-        for b in range(0, len(grid), 4000):
-            sub = grid.iloc[b:b + 4000]
-            fc = ee.FeatureCollection([ee.Feature(ee.Geometry.Point([float(lo), float(la)]), {"i": int(i)})
-                                       for i, la, lo in zip(sub.index, sub["LAT"], sub["LON"])])
-            res = img.reduceRegions(collection=fc, reducer=ee.Reducer.first(), scale=1000).getInfo()
-            for ft in res["features"]:
-                pr = ft["properties"]
-                v = pr.get("NDVI", pr.get("first"))
-                if v is not None:
-                    vals[pr["i"]] = v * 0.0001
+        img = coll.filterDate(ps, (period + pd.Timedelta(days=16)).strftime("%Y-%m-%d")).mosaic().select(["NDVI"]).multiply(0.0001).unmask(-9999.0)
+        # same method as training (step 35c): one map at the native 0.1 degree grid = mean NDVI of each cell square
+        L1, LO0 = 66.0, -141.0
+        GRIDX = {"dimensions": {"width": NLON, "height": NLAT},
+                 "affineTransform": {"scaleX": 0.1, "shearX": 0, "translateX": LO0 - 0.05, "shearY": 0, "scaleY": -0.1, "translateY": L1 + 0.05},
+                 "crsCode": "EPSG:4326"}
+        arr = ee.data.computePixels({"expression": img, "fileFormat": "NUMPY_NDARRAY", "grid": GRIDX})["NDVI"].astype("float64")
+        ri = np.clip(np.rint((L1 - grid["LAT"].values) / 0.1).astype(int), 0, NLAT - 1)
+        rj = np.clip(np.rint((grid["LON"].values - LO0) / 0.1).astype(int), 0, NLON - 1)
+        vals = arr[ri, rj]; vals[vals < -9990] = np.nan
         out = pd.DataFrame({"LAT": grid["LAT"].values, "LON": grid["LON"].values, "ndvi": vals, "composite_start": ps})
         if np.isfinite(vals).mean() < 0.9:
             raise RuntimeError(f"NDVI only {np.isfinite(vals).mean():.2f} filled")
@@ -244,7 +242,15 @@ for c in [f for f in FEATS if f.startswith("stormtype_")]:
     else:             d[c] = ((p7 >= 2.5) & (p7 <= 10)).astype(int)
 missing = [f for f in FEATS if f not in d.columns]
 assert not missing, f"features missing: {missing}"
-if os.path.exists(f"{STATIC}/live_model_mono.pkl") and os.path.exists(f"{STATIC}/live_calibrator_platt_mono.pkl"):
+if os.path.exists(f"{STATIC}/live_model_v7.pkl") and os.path.exists(f"{STATIC}/live_calibrator_platt_v7.pkl"):
+    MODEL_VERSION = "v7"        # step 36: all positive cases, Canada-only rows, weighted, physical rules
+    model = pickle.load(open(f"{STATIC}/live_model_v7.pkl", "rb"))
+    plat = pickle.load(open(f"{STATIC}/live_calibrator_platt_v7.pkl", "rb"))
+elif os.path.exists(f"{STATIC}/live_model_ca.pkl") and os.path.exists(f"{STATIC}/live_calibrator_platt_ca.pkl"):
+    MODEL_VERSION = "ca"        # step 34: Canada-only training rows, physical rules, no road rule, Canada-only calibration
+    model = pickle.load(open(f"{STATIC}/live_model_ca.pkl", "rb"))
+    plat = pickle.load(open(f"{STATIC}/live_calibrator_platt_ca.pkl", "rb"))
+elif os.path.exists(f"{STATIC}/live_model_mono.pkl") and os.path.exists(f"{STATIC}/live_calibrator_platt_mono.pkl"):
     MODEL_VERSION = "mono"      # model with physical rules (step 30/31)
     model = pickle.load(open(f"{STATIC}/live_model_mono.pkl", "rb"))
     plat = pickle.load(open(f"{STATIC}/live_calibrator_platt_mono.pkl", "rb"))
@@ -297,7 +303,7 @@ folium.TileLayer(TILES, attr="Tiles &copy; Esri", no_wrap=True).add_to(m)
 for r in s.itertuples(index=False):
     tip = (f"<b>{r.prob*100:.2f}%</b> chance a fire follows<br>{r.province} | lat {r.LAT:.1f}, lon {r.LON:.1f}"
            f"<br>lightning pixels (24 h): {r.lightning_24h_pixels:.0f}"
-           + ("<br><i>North of 52N: low confidence</i>" if r.flag_north else "")
+           + ("<br><i>Far north: less certain</i>" if r.flag_north else "")
            + ("<br><i>Some inputs missing</i>" if r.flag_missing_inputs else ""))
     folium.Rectangle([[r.LAT - .05, r.LON - .05], [r.LAT + .05, r.LON + .05]], color=color(r.prob), weight=1, fill=True,
                      fill_color=color(r.prob), fill_opacity=0.75, dash_array="3" if r.flag_north else None).add_to(m)
@@ -309,6 +315,15 @@ if history_days < NLAGS:
              f"({history_days} of 15 days). Probabilities are NOT reliable yet.</div>")
 if fires_note != "live":
     warn += f"<div style='color:#b00;margin-top:4px'>Fire counts: {fires_note}</div>"
+n_north_unscored = 0   # grid now reaches 66N; lightning north of 66N is outside the box
+try:
+    ndvi_age = (pd.Timestamp(now_utc.date()) - pd.Timestamp(str(nd["composite_start"].iloc[0]))).days
+except Exception:
+    ndvi_age = None
+if ndvi_age is not None and ndvi_age > 55:
+    warn += (f"<div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: vegetation (NDVI) data is {ndvi_age} days old. "
+             f"Run the monthly refresh.</div>")
+print("lit cells north of 52N not scored:", n_north_unscored, "| ndvi age (days):", ndvi_age)
 empty = "" if len(s) else "<div style='margin-top:6px'><b>No lightning detected in the last 24 h.</b></div>"
 legend = "".join(f"<div><span style='background:{c};display:inline-block;width:14px;height:14px;margin-right:6px'></span>{t}</div>"
                  for _, c, t in BANDS)
@@ -319,7 +334,7 @@ panel = f"""
 <i>Conditional on detected lightning. This is not overall wildfire risk.</i><br>
 Each dot = a 0.1&deg; cell with lightning in the last 24 h. Colour = chance that a lightning fire follows.
 <div style="margin-top:6px">{legend}</div>
-<div style="margin-top:6px;font-size:12px">Dashed box = north of 52&deg;N (low confidence). Covers Canada south of 66&deg;N.</div>
+<div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed box = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires).</div>
 {empty}{warn}
 <div style="margin-top:6px;font-size:11px;color:#555">Lightning to {asof:%Y-%m-%d %H:%M} UTC | weather {weather_asof}<br>
 NDVI composite {ndvi_start} | page built {now_utc:%Y-%m-%d %H:%M} UTC</div>
