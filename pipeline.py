@@ -292,12 +292,7 @@ def color(p):
     return BANDS[-1][1]
 
 TILES = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-if len(s):
-    span = max((s.LAT.max() - s.LAT.min()) * 1.5, s.LON.max() - s.LON.min())
-    zoom = 7 if span < 3 else 6 if span < 6 else 5 if span < 12 else 4 if span < 24 else 3
-    center = [float(s.LAT.median()), float(s.LON.median())]
-else:
-    center, zoom = [55.0, -96.0], 4
+center, zoom = [55.0, -96.0], 4        # always start on Canada; zoom in with +
 m = folium.Map(location=center, zoom_start=zoom, tiles=None, min_zoom=3, max_bounds=True)
 folium.TileLayer(TILES, attr="Tiles &copy; Esri", no_wrap=True).add_to(m)
 for r in s.itertuples(index=False):
@@ -327,17 +322,21 @@ print("lit cells north of 52N not scored:", n_north_unscored, "| ndvi age (days)
 empty = "" if len(s) else "<div style='margin-top:6px'><b>No lightning detected in the last 24 h.</b></div>"
 legend = "".join(f"<div><span style='background:{c};display:inline-block;width:14px;height:14px;margin-right:6px'></span>{t}</div>"
                  for _, c, t in BANDS)
+short = "<div style='color:#b00;font-weight:bold;font-size:12px;margin-top:4px'>Short lightning history - probabilities not reliable yet</div>" if history_days < NLAGS else ""
 panel = f"""
-<div style="position:fixed;top:10px;left:55px;z-index:9999;background:white;padding:10px 14px;border:1px solid #999;
- border-radius:6px;max-width:340px;font:13px Arial">
-<b>Lightning risk map</b><br>
+<div style="position:fixed;top:10px;left:55px;z-index:9999;background:white;padding:6px 10px;border:1px solid #999;
+ border-radius:6px;max-width:300px;max-height:80vh;overflow:auto;font:13px Arial">
+<details>
+<summary style="cursor:pointer"><b>Lightning risk map</b> <span style="color:#555">(tap to open / close)</span></summary>
 <i>Conditional on detected lightning. This is not overall wildfire risk.</i><br>
 Each dot = a 0.1&deg; cell with lightning in the last 24 h. Colour = chance that a lightning fire follows.
 <div style="margin-top:6px">{legend}</div>
-<div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed box = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires).</div>
+<div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires).</div>
 {empty}{warn}
 <div style="margin-top:6px;font-size:11px;color:#555">Lightning to {asof:%Y-%m-%d %H:%M} UTC | weather {weather_asof}<br>
 NDVI composite {ndvi_start} | page built {now_utc:%Y-%m-%d %H:%M} UTC</div>
+</details>
+{short}
 </div>"""
 m.get_root().html.add_child(folium.Element(panel))
 m.save(f"{DOCS}/index.html")
