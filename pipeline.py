@@ -332,8 +332,10 @@ HEALTH_HTML = ("<details style='margin-top:6px'><summary style='cursor:pointer'>
 
 # ---------------------------------------------------------------- 6. map
 import folium
-BANDS = [(0.0025, "#ffffb2", "under 0.25%"), (0.005, "#fecc5c", "0.25 - 0.5%"), (0.01, "#fd8d3c", "0.5 - 1%"),
-         (0.02, "#f03b20", "1 - 2%"), (0.05, "#bd0026", "2 - 5%"), (0.10, "#7a0177", "5 - 10%"), (9, "#240046", "over 10%")]
+BANDS = [(0.005, "#ffffb2", "under 0.5% (real about 0.6% or less)"), (0.009, "#fecc5c", "0.5 - 0.9% (real about 1%)"),
+         (0.016, "#fd8d3c", "0.9 - 1.6% (real 1 - 2%)"), (0.035, "#f03b20", "1.6 - 3.5% (real 2 - 4%)"),
+         (0.08, "#bd0026", "3.5 - 8% (real 4 - 8%)"), (0.23, "#7a0177", "8 - 23% (real 8 - 16%)"), (9, "#240046", "over 23% (real 16%+)")]
+# band edges = predicted values where the REAL fire rate on 2023-24 test years reaches ~1, 2, 4, 8, 16% (step 37)
 def color(p):
     for lim, c, _ in BANDS:
         if p < lim:
@@ -392,7 +394,7 @@ panel = f"""
 <i>Conditional on detected lightning. This is not overall wildfire risk.</i><br>
 Each square = a 0.1&deg; cell (about 11 km) with lightning in the last 24 h. Colour = chance that a <b>reported lightning-caused fire</b> follows in the 3x3 cells around it within the next 3 days. It is <b>not</b> the chance of any wildfire, human-caused fires, or a guarantee. Hover a square for its inputs.
 <div style="margin-top:6px">{legend}</div>
-<div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires).</div>
+<div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires). Tested 2023-24: in the North, Saskatchewan and Yukon the shown % runs about 1.4-1.9x too high; in October it runs too low. Treat those as rough.</div>
 {empty}{warn}
 {HEALTH_HTML}
 <div style="margin-top:6px;font-size:11px;color:#555">Lightning to {asof:%Y-%m-%d %H:%M} UTC | weather {weather_asof}<br>
