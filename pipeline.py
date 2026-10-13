@@ -281,6 +281,55 @@ keep = ["LAT", "LON", "province", "region", "prob", "lightning_24h_pixels", "lig
 s[keep].to_csv(f"{DOCS}/latest_scores.csv", index=False)
 s[keep + FEATS].to_csv(f"{ARCH}/scores_{asof:%Y%m%dT%H%M}Z.csv.gz", index=False, compression="gzip")   # for later testing
 
+# ---------------------------------------------------------------- 5b. data health (shown on the map and saved as docs/health.json)
+import json as _json
+def _status(ok, warn=False):
+    return "OK" if ok else ("CHECK" if warn else "PROBLEM")
+H_ROWS = []
+def _add(name, source, updated, filled, status, note=""):
+    H_ROWS.append(dict(input=name, source=source, updated=str(updated), filled=("" if filled is None else f"{filled*100:.1f}%"), status=status, note=note))
+_wx_cols = ["precip_on_day", "precip_prior_7d", "days_since_rain", "temp_on_day", "rel_humidity_pct", "wind_speed_ms"]
+_rain_slice = wlog.get("rain_latest_slice", "?")
+try:
+    _rain_age = (now_utc - pd.Timestamp(_rain_slice).to_pydatetime()).total_seconds() / 3600
+except Exception:
+    _rain_age = None
+_add("Rain (24 h + 7 days)", "Environment Canada RDPA 6-hour analysis", _rain_slice, float(d["precip_prior_7d"].notna().mean()),
+     _status(d["precip_prior_7d"].notna().mean() >= 0.99 and (_rain_age is not None and _rain_age < 24), True), f"newest slice {_rain_age:.0f} h old" if _rain_age is not None else "")
+_add("Temperature, humidity, wind", "Environment Canada HRDPS forecast (next 24 h)", weather_asof, float(d[["temp_on_day", "rel_humidity_pct", "wind_speed_ms"]].notna().all(axis=1).mean()),
+     _status(d[["temp_on_day", "rel_humidity_pct", "wind_speed_ms"]].notna().all(axis=1).mean() >= 0.99, True), "forecast, not the daily mean used in training")
+try:
+    _nd_age = (pd.Timestamp(now_utc.date()) - pd.Timestamp(str(nd["composite_start"].iloc[0]))).days
+except Exception:
+    _nd_age = None
+_add("Vegetation (NDVI)", "MODIS 16-day composite", str(nd["composite_start"].iloc[0]) if "composite_start" in nd else "?", float(d["ndvi"].notna().mean()),
+     _status(d["ndvi"].notna().mean() >= 0.98 and _nd_age is not None and _nd_age <= 55, True), f"{_nd_age} days old" if _nd_age is not None else "age unknown")
+_add("Recent fires (50 km, 30 days)", "CWFIS", now_utc.strftime("%Y-%m-%d %H:%MZ"), float(d["recent_fires_50km_30d"].notna().mean()),
+     _status(fires_note == "live" and d["recent_fires_50km_30d"].notna().mean() >= 0.99, True), fires_note)
+_add("Lightning (15-day memory)", "Recorded from Environment Canada (ground + cloud)", asof.strftime("%Y-%m-%d %H:%MZ"), history_days / NLAGS,
+     _status(history_days >= NLAGS and lag_h <= 6, True), f"{history_days} of {NLAGS} days recorded; newest step {lag_h:.1f} h old; scale: {SCALE_MODE}")
+_stat_cols = ["dist_to_road_m", "pop_within_10km", "pop_within_25km", "elevation", "slope_deg", "ruggedness_m"]
+_add("Roads, population, terrain", "Static grid (NRN, Kontur, SRTM/Copernicus)", "static", float(d[_stat_cols].notna().all(axis=1).mean()),
+     _status(d[_stat_cols].notna().all(axis=1).mean() >= 0.99, True))
+_feat_ok = all(f in d.columns for f in FEATS) and len(FEATS) == 34
+_s_probs = s["prob"].dropna()
+_prob_ok = bool(len(_s_probs) == 0 or (_s_probs.between(0, 1).all() and _s_probs.max() < 0.95))
+_scored_nan = [f for f in FEATS if len(s) and s[f].isna().all()]
+_add("Model", f"{MODEL_VERSION}, {len(FEATS)} inputs", MODEL_VERSION, None,
+     _status(_feat_ok and _prob_ok and not _scored_nan and MODEL_VERSION == "v7", True),
+     "all 34 inputs present" if (_feat_ok and not _scored_nan) else f"inputs missing/empty: {_scored_nan or 'schema'}")
+HEALTH_OVERALL = "OK" if all(r["status"] == "OK" for r in H_ROWS) else ("PROBLEM" if any(r["status"] == "PROBLEM" for r in H_ROWS) else "CHECK")
+with open(f"{DOCS}/health.json", "w") as _f:
+    _json.dump(dict(built_utc=now_utc.strftime("%Y-%m-%dT%H:%MZ"), overall=HEALTH_OVERALL, rows=H_ROWS), _f, indent=1)
+print("data health:", HEALTH_OVERALL)
+for r in H_ROWS: print("  ", r["status"], "|", r["input"], "|", r["filled"], "|", r["note"])
+_hc = {"OK": "#1a7f37", "CHECK": "#b7791f", "PROBLEM": "#b00020"}
+HEALTH_HTML = ("<details style='margin-top:6px'><summary style='cursor:pointer'><b>Data health: <span style='color:%s'>%s</span></b></summary>"
+               "<table style='font-size:11px;border-collapse:collapse;margin-top:4px'>" % (_hc[HEALTH_OVERALL], HEALTH_OVERALL)
+               + "".join("<tr><td style='padding:1px 4px;vertical-align:top'><span style='color:%s'><b>%s</b></span></td><td style='padding:1px 4px'>%s<br><span style='color:#555'>%s %s</span></td></tr>"
+                         % (_hc[r["status"]], r["status"], r["input"], r["filled"], r["note"]) for r in H_ROWS)
+               + "</table></details>")
+
 # ---------------------------------------------------------------- 6. map
 import folium
 BANDS = [(0.0025, "#ffffb2", "under 0.25%"), (0.005, "#fecc5c", "0.25 - 0.5%"), (0.01, "#fd8d3c", "0.5 - 1%"),
@@ -297,10 +346,21 @@ m = folium.Map(location=center, zoom_start=zoom, tiles=None, min_zoom=2, max_bou
                min_lat=38.0, max_lat=72.0, min_lon=-150.0, max_lon=-40.0)     # cannot pan far from Canada
 m.fit_bounds([[41.5, -141.5], [66.5, -52.0]])                                 # Canada fills the screen
 folium.TileLayer(TILES, attr="Tiles &copy; Esri", no_wrap=True).add_to(m)
+def _f(v, fmt="{:.1f}"):
+    try:
+        return "n/a" if v is None or (isinstance(v, float) and np.isnan(v)) else fmt.format(v)
+    except Exception:
+        return "n/a"
 for r in s.itertuples(index=False):
-    tip = (f"<b>{r.prob*100:.2f}%</b> chance a fire follows<br>{r.province} | lat {r.LAT:.1f}, lon {r.LON:.1f}"
-           f"<br>lightning pixels (24 h): {r.lightning_24h_pixels:.0f}"
-           + ("<br><i>Far north: less certain</i>" if r.flag_north else "")
+    tip = (f"<b>{r.prob*100:.2f}%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)"
+           f"<br>{r.province} | lat {r.LAT:.1f}, lon {r.LON:.1f}"
+           f"<hr style='margin:3px 0'>"
+           f"Lightning (last 24 h): {r.lightning_24h_pixels:.0f} lit pixels, about {_f(r.cg3_lag0)} ground-like flashes (3x3 cells)<br>"
+           f"Rain: {_f(r.precip_on_day)} mm last 24 h, {_f(r.precip_prior_7d)} mm in the 7 days before; {_f(r.days_since_rain, '{:.0f}')} days since rain<br>"
+           f"Temp {_f(r.temp_on_day)} &deg;C | humidity {_f(r.rel_humidity_pct, '{:.0f}')}% | wind {_f(r.wind_speed_ms)} m/s (forecast)<br>"
+           f"NDVI {_f(r.ndvi, '{:.2f}')} (composite {str(nd['composite_start'].iloc[0])[:10]}) | fires within 50 km, 30 days: {_f(r.recent_fires_50km_30d, '{:.0f}')}<br>"
+           f"Model {r.model_version} | inputs as of {r.asof_utc}"
+           + ("<br><i>Far north: less certain (fewer fires to learn from)</i>" if r.flag_north else "")
            + ("<br><i>Some inputs missing</i>" if r.flag_missing_inputs else ""))
     folium.Rectangle([[r.LAT - .05, r.LON - .05], [r.LAT + .05, r.LON + .05]], color="#333333" if r.flag_north else color(r.prob),
                      weight=1 if r.flag_north else 0, fill=True, fill_color=color(r.prob), fill_opacity=0.9,
@@ -330,10 +390,11 @@ panel = f"""
 <details>
 <summary style="cursor:pointer"><b>Lightning risk map</b> <span style="color:#555">(tap to open / close)</span></summary>
 <i>Conditional on detected lightning. This is not overall wildfire risk.</i><br>
-Each dot = a 0.1&deg; cell with lightning in the last 24 h. Colour = chance that a lightning fire follows.
+Each square = a 0.1&deg; cell (about 11 km) with lightning in the last 24 h. Colour = chance that a <b>reported lightning-caused fire</b> follows in the 3x3 cells around it within the next 3 days. It is <b>not</b> the chance of any wildfire, human-caused fires, or a guarantee. Hover a square for its inputs.
 <div style="margin-top:6px">{legend}</div>
 <div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires).</div>
 {empty}{warn}
+{HEALTH_HTML}
 <div style="margin-top:6px;font-size:11px;color:#555">Lightning to {asof:%Y-%m-%d %H:%M} UTC | weather {weather_asof}<br>
 NDVI composite {ndvi_start} | page built {now_utc:%Y-%m-%d %H:%M} UTC</div>
 </details>
