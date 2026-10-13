@@ -332,10 +332,10 @@ HEALTH_HTML = ("<details style='margin-top:6px'><summary style='cursor:pointer'>
 
 # ---------------------------------------------------------------- 6. map
 import folium
-BANDS = [(0.005, "#ffffb2", "under 0.5% (real about 0.6% or less)"), (0.009, "#fecc5c", "0.5 - 0.9% (real about 1%)"),
-         (0.016, "#fd8d3c", "0.9 - 1.6% (real 1 - 2%)"), (0.035, "#f03b20", "1.6 - 3.5% (real 2 - 4%)"),
-         (0.08, "#bd0026", "3.5 - 8% (real 4 - 8%)"), (0.23, "#7a0177", "8 - 23% (real 8 - 16%)"), (9, "#240046", "over 23% (real 16%+)")]
-# band edges = predicted values where the REAL fire rate on 2023-24 test years reaches ~1, 2, 4, 8, 16% (step 37)
+BANDS = [(0.005, "#ffffb2", "under 0.5% (real: about 0.2%)"), (0.009, "#fecc5c", "0.5 - 0.9% (real: about 0.8%)"),
+         (0.016, "#fd8d3c", "0.9 - 1.6% (real: about 1.6%)"), (0.035, "#f03b20", "1.6 - 3.5% (real: about 2.7%)"),
+         (0.08, "#bd0026", "3.5 - 8% (real: about 5.5%)"), (0.23, "#7a0177", "8 - 23% (real: about 11%)"), (9, "#240046", "over 23% (real: about 26%)")]
+# "real" = measured fire rate inside each band on the 2023-24 test years (step 38). Bands 8%+ show ~1.25-1.35x too high, so real is lower.
 def color(p):
     for lim, c, _ in BANDS:
         if p < lim:
