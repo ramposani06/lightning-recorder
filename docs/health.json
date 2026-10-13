@@ -1,5 +1,5 @@
 {
- "built_utc": "2026-10-13T21:08Z",
+ "built_utc": "2026-10-13T21:41Z",
  "overall": "CHECK",
  "rows": [
   {
@@ -8,7 +8,7 @@
    "updated": "2026-10-13T18:00Z",
    "filled": "100.0%",
    "status": "OK",
-   "note": "newest slice 3 h old"
+   "note": "newest slice 4 h old"
   },
   {
    "input": "Temperature, humidity, wind",
@@ -29,7 +29,7 @@
   {
    "input": "Recent fires (50 km, 30 days)",
    "source": "CWFIS",
-   "updated": "2026-10-13 21:08Z",
+   "updated": "2026-10-13 21:41Z",
    "filled": "100.0%",
    "status": "OK",
    "note": "live"
@@ -40,7 +40,7 @@
    "updated": "2026-10-13 20:30Z",
    "filled": "20.0%",
    "status": "CHECK",
-   "note": "3 of 15 days recorded; newest step 0.6 h old; scale: fixed 0.35"
+   "note": "3 of 15 days recorded; newest step 1.2 h old; scale: fixed 0.35"
   },
   {
    "input": "Roads, population, terrain",
