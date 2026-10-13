@@ -345,6 +345,15 @@ try:
     print("risk bands: from risk_bands_v7.json,", len(BANDS), "bands")
 except Exception as _e:
     print("risk bands: built-in fallback (", type(_e).__name__, ")")
+# colours that stay visible on the light-grey base map (fill, outline); by band index, whatever the bands file says
+VIS = [("#ffe14d", "#a88b00"), ("#ffb000", "#8a5c00"), ("#ff6a00", "#8a3300"), ("#e0201b", "#6e0d0b"),
+       ("#a00060", "#4d002d"), ("#5a1a8a", "#2a0a42"), ("#1a0033", "#000000")]
+BANDS = [(u, VIS[min(i, len(VIS) - 1)][0], t) for i, (u, _, t) in enumerate(BANDS)]
+def outline(p):
+    for i, (lim, _, _t) in enumerate(BANDS):
+        if p < lim:
+            return VIS[min(i, len(VIS) - 1)][1]
+    return VIS[-1][1]
 def color(p):
     for lim, c, _ in BANDS:
         if p < lim:
@@ -373,8 +382,8 @@ for r in s.itertuples(index=False):
            f"Model {r.model_version} | inputs as of {r.asof_utc}"
            + ("<br><i>Far north: less certain (fewer fires to learn from)</i>" if r.flag_north else "")
            + ("<br><i>Some inputs missing</i>" if r.flag_missing_inputs else ""))
-    folium.Rectangle([[r.LAT - .05, r.LON - .05], [r.LAT + .05, r.LON + .05]], color="#333333" if r.flag_north else color(r.prob),
-                     weight=1 if r.flag_north else 0, fill=True, fill_color=color(r.prob), fill_opacity=0.9,
+    folium.Rectangle([[r.LAT - .05, r.LON - .05], [r.LAT + .05, r.LON + .05]], color="#333333" if r.flag_north else outline(r.prob),
+                     weight=1.5 if r.flag_north else 1.2, fill=True, fill_color=color(r.prob), fill_opacity=0.9,
                      dash_array="3" if r.flag_north else None, tooltip=folium.Tooltip(tip)).add_to(m)
 warn = ""
 if history_days < NLAGS:
@@ -392,7 +401,7 @@ if ndvi_age is not None and ndvi_age > 55:
              f"Run the monthly refresh.</div>")
 print("lit cells north of 52N not scored:", n_north_unscored, "| ndvi age (days):", ndvi_age)
 empty = "" if len(s) else "<div style='margin-top:6px'><b>No lightning detected in the last 24 h.</b></div>"
-legend = "".join(f"<div><span style='background:{c};display:inline-block;width:14px;height:14px;margin-right:6px'></span>{t}</div>"
+legend = "".join(f"<div><span style='background:{c};display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>{t}</div>"
                  for _, c, t in BANDS)
 short = "<div style='color:#b00;font-weight:bold;font-size:12px;margin-top:4px'>Short lightning history - probabilities not reliable yet</div>" if history_days < NLAGS else ""
 panel = f"""
