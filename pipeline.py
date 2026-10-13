@@ -158,7 +158,7 @@ def load_ndvi(grid):
         print("NDVI auto-refresh not used:", repr(e)[:300])
         for p in (cache, f"{STATIC}/live_ndvi.csv"):
             if os.path.exists(p):
-                return key(pd.read_csv(p)), "OLD file (auto-refresh failed)"
+                return key(pd.read_csv(p)), "monthly Colab file"
         raise
 
 
@@ -293,7 +293,9 @@ def color(p):
 
 TILES = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
 center, zoom = [55.0, -96.0], 4        # always start on Canada; zoom in with +
-m = folium.Map(location=center, zoom_start=zoom, tiles=None, min_zoom=3, max_bounds=True)
+m = folium.Map(location=center, zoom_start=zoom, tiles=None, min_zoom=2, max_bounds=True,
+               min_lat=38.0, max_lat=72.0, min_lon=-150.0, max_lon=-40.0)     # cannot pan far from Canada
+m.fit_bounds([[41.5, -141.5], [66.5, -52.0]])                                 # Canada fills the screen
 folium.TileLayer(TILES, attr="Tiles &copy; Esri", no_wrap=True).add_to(m)
 for r in s.itertuples(index=False):
     tip = (f"<b>{r.prob*100:.2f}%</b> chance a fire follows<br>{r.province} | lat {r.LAT:.1f}, lon {r.LON:.1f}"
