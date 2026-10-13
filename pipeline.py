@@ -283,8 +283,8 @@ s[keep + FEATS].to_csv(f"{ARCH}/scores_{asof:%Y%m%dT%H%M}Z.csv.gz", index=False,
 
 # ---------------------------------------------------------------- 6. map
 import folium
-BANDS = [(0.005, "#fee08b", "under 0.5%"), (0.01, "#fdae61", "0.5 - 1%"), (0.02, "#f46d43", "1 - 2%"),
-         (0.05, "#d73027", "2 - 5%"), (0.10, "#a50026", "5 - 10%"), (9, "#4d0013", "over 10%")]
+BANDS = [(0.0025, "#ffffb2", "under 0.25%"), (0.005, "#fecc5c", "0.25 - 0.5%"), (0.01, "#fd8d3c", "0.5 - 1%"),
+         (0.02, "#f03b20", "1 - 2%"), (0.05, "#bd0026", "2 - 5%"), (0.10, "#7a0177", "5 - 10%"), (9, "#240046", "over 10%")]
 def color(p):
     for lim, c, _ in BANDS:
         if p < lim:
@@ -302,10 +302,9 @@ for r in s.itertuples(index=False):
            f"<br>lightning pixels (24 h): {r.lightning_24h_pixels:.0f}"
            + ("<br><i>Far north: less certain</i>" if r.flag_north else "")
            + ("<br><i>Some inputs missing</i>" if r.flag_missing_inputs else ""))
-    folium.Rectangle([[r.LAT - .05, r.LON - .05], [r.LAT + .05, r.LON + .05]], color=color(r.prob), weight=1, fill=True,
-                     fill_color=color(r.prob), fill_opacity=0.75, dash_array="3" if r.flag_north else None).add_to(m)
-    folium.CircleMarker([r.LAT, r.LON], radius=6, color="black", weight=1, fill=True, fill_color=color(r.prob),
-                        fill_opacity=0.9, tooltip=folium.Tooltip(tip)).add_to(m)
+    folium.Rectangle([[r.LAT - .05, r.LON - .05], [r.LAT + .05, r.LON + .05]], color="#333333" if r.flag_north else color(r.prob),
+                     weight=1 if r.flag_north else 0, fill=True, fill_color=color(r.prob), fill_opacity=0.9,
+                     dash_array="3" if r.flag_north else None, tooltip=folium.Tooltip(tip)).add_to(m)
 warn = ""
 if history_days < NLAGS:
     warn += (f"<div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: short lightning history "
