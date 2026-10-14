@@ -410,7 +410,7 @@ panel = f"""
 <details>
 <summary style="cursor:pointer"><b>Lightning risk map</b> <span style="color:#555">(tap to open / close)</span></summary>
 <i>Conditional on detected lightning. This is not overall wildfire risk.</i><br>
-Each square = a 0.1&deg; cell (about 11 km) with lightning in the last 24 h. Colour = chance that a <b>reported lightning-caused fire</b> follows in the 3x3 cells around it within the next 3 days. It is <b>not</b> the chance of any wildfire, human-caused fires, or a guarantee. Hover a square for its inputs.
+Each square = a 0.1&deg; cell (about 11 km) with lightning in the last 24 h. Colour = chance that a <b>reported lightning-caused fire</b> follows in the 3x3 cells around it within the next 3 days. The % is <b>conditional on lightning in that cell</b>: a reported lightning-caused fire anywhere in the 3x3 cells (about 33 km) within 3 days counts. It is <b>not</b> the chance that one strike starts a fire, not the chance of any wildfire, and not human-caused fires. About 1 in 4 lightning fires (more in the far north) have no ground lightning nearby beforehand, so this map cannot show them. Hover a square for its inputs.
 <div style="margin-top:6px">{legend}</div>
 <div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires). Tested 2023-24: in the North, Saskatchewan and Yukon the shown % runs about 1.4-1.9x too high; in October it runs too low. Treat those as rough.</div>
 {empty}{warn}
