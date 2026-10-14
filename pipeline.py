@@ -412,10 +412,13 @@ panel = f"""
  border-radius:6px;max-width:300px;max-height:80vh;overflow:auto;font:13px Arial">
 <details>
 <summary style="cursor:pointer"><b>Lightning risk map</b> <span style="color:#555">(tap to open / close)</span></summary>
-<i>Conditional on detected lightning. This is not overall wildfire risk.</i><br>
-Each square = a 0.1&deg; cell (about 11 km) with lightning in the last 24 h. Colour = chance that a <b>reported lightning-caused fire</b> follows in the 3x3 cells around it within the next 3 days. The % is <b>conditional on lightning in that cell</b>: a reported lightning-caused fire anywhere in the 3x3 cells (about 33 km) within 3 days counts. It is <b>not</b> the chance that one strike starts a fire, not the chance of any wildfire, and not human-caused fires. About 1 in 4 lightning fires (more in the far north) have no ground lightning nearby beforehand, so this map cannot show them. Hover a square for its inputs.
+<i>Only cells with lightning in the last 24 h are shown. This is not overall wildfire risk.</i><br>
+Colour = the model's chance that a <b>reported lightning-caused fire</b> follows within 3 days in the 3x3 cells (about 33 km) around the square. "real" = how often that really happened in 21 years of tests.
+<details style="margin-top:4px"><summary style="cursor:pointer;font-size:12px"><b>What this number is NOT</b></summary>
+<div style="font-size:12px">It is not the chance that one strike starts a fire, not the chance of any wildfire, and not human-caused fires. About 1 in 4 lightning fires (more in the far north) have no ground lightning nearby beforehand, so this map cannot show them. Hover a square for its inputs.</div></details>
 <div style="margin-top:6px">{legend}</div>
-<div style="margin-top:6px;font-size:12px">Covers Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; the model was tested there with fewer fires). Tested 2023-24: in the North, Saskatchewan and Yukon the shown % runs about 1.4-1.9x too high; in October it runs too low. Treat those as rough.</div>
+<details style="margin-top:6px"><summary style="cursor:pointer;font-size:12px"><b>Coverage and known weak spots</b></summary>
+<div style="font-size:12px">Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; fewer fires to learn from). In 21 years of out-of-sample tests the shown % ran about 1.3-1.5x too high in the North, Saskatchewan, Yukon and Newfoundland, and too low in October. Treat those as rough.</div></details>
 {empty}{warn}
 {HEALTH_HTML}
 <div style="margin-top:6px;font-size:11px;color:#555">Lightning to {asof:%Y-%m-%d %H:%M} UTC | weather {weather_asof}<br>
