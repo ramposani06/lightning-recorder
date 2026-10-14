@@ -371,6 +371,7 @@ def _f(v, fmt="{:.1f}"):
         return "n/a" if v is None or (isinstance(v, float) and np.isnan(v)) else fmt.format(v)
     except Exception:
         return "n/a"
+dots = folium.FeatureGroup(name="dots", show=False)                       # round dots, only shown when zoomed out (cells are tiny there)
 for r in s.itertuples(index=False):
     tip = (f"<b>{r.prob*100:.2f}%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)"
            f"<br>{r.province} | lat {r.LAT:.1f}, lon {r.LON:.1f}"
@@ -383,8 +384,10 @@ for r in s.itertuples(index=False):
            + ("<br><i>Far north: less certain (fewer fires to learn from)</i>" if r.flag_north else "")
            + ("<br><i>Some inputs missing</i>" if r.flag_missing_inputs else ""))
     folium.Rectangle([[r.LAT - .05, r.LON - .05], [r.LAT + .05, r.LON + .05]], color="#333333" if r.flag_north else outline(r.prob),
-                     weight=1.5 if r.flag_north else 1.2, fill=True, fill_color=color(r.prob), fill_opacity=0.9,
+                     weight=1.5 if r.flag_north else 0.5, fill=True, fill_color=color(r.prob), fill_opacity=0.9,
                      dash_array="3" if r.flag_north else None, tooltip=folium.Tooltip(tip)).add_to(m)
+    folium.CircleMarker([r.LAT, r.LON], radius=3.2, color=outline(r.prob), weight=0.7, fill=True, fill_color=color(r.prob), fill_opacity=0.95,
+                        tooltip=folium.Tooltip(tip)).add_to(dots)
 warn = ""
 if history_days < NLAGS:
     warn += (f"<div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: short lightning history "
@@ -420,6 +423,15 @@ NDVI composite {ndvi_start} | page built {now_utc:%Y-%m-%d %H:%M} UTC</div>
 </details>
 {short}
 </div>"""
+dots.add_to(m)
+_js = """<script>
+window.addEventListener('load', function () {
+  var mp = %s, dots = %s;
+  function upd() { if (mp.getZoom() >= 7) { if (mp.hasLayer(dots)) mp.removeLayer(dots); } else { if (!mp.hasLayer(dots)) mp.addLayer(dots); } }
+  mp.on('zoomend', upd); upd();
+});
+</script>""" % (m.get_name(), dots.get_name())
+m.get_root().html.add_child(folium.Element(_js))
 m.get_root().html.add_child(folium.Element(panel))
 m.save(f"{DOCS}/index.html")
 print("map saved:", len(s), "cells")
