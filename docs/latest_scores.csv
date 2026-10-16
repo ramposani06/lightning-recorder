@@ -1,2 +1,2 @@
 LAT,LON,province,region,prob,lightning_24h_pixels,lightning_history_days,flag_north,flag_short_history,flag_missing_inputs,asof_utc,model_version,lightning_scale_mode
-42.2,-81.3,ON,East,9.496445204843679e-05,2.0,5,False,True,False,2026-10-16T06:40Z,v7,fixed 0.35
+42.2,-81.3,ON,East,6.073375819666445e-05,2.0,5,False,True,False,2026-10-16T08:30Z,v7,fixed 0.35
