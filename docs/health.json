@@ -1,5 +1,5 @@
 {
- "built_utc": "2026-10-22T16:12Z",
+ "built_utc": "2026-10-22T19:16Z",
  "overall": "CHECK",
  "rows": [
   {
@@ -8,12 +8,12 @@
    "updated": "2026-10-22T12:00Z",
    "filled": "100.0%",
    "status": "OK",
-   "note": "newest slice 4 h old"
+   "note": "newest slice 7 h old"
   },
   {
    "input": "Temperature, humidity, wind",
    "source": "Environment Canada HRDPS forecast (next 24 h)",
-   "updated": "2026-10-22T16:00Z",
+   "updated": "2026-10-22T19:00Z",
    "filled": "100.0%",
    "status": "OK",
    "note": "forecast, not the daily mean used in training"
@@ -29,7 +29,7 @@
   {
    "input": "Recent fires (50 km, 30 days)",
    "source": "CWFIS",
-   "updated": "2026-10-22 16:12Z",
+   "updated": "2026-10-22 19:16Z",
    "filled": "100.0%",
    "status": "OK",
    "note": "live"
@@ -37,10 +37,10 @@
   {
    "input": "Lightning (15-day memory)",
    "source": "Recorded from Environment Canada (ground + cloud)",
-   "updated": "2026-10-22 14:30Z",
-   "filled": "73.3%",
+   "updated": "2026-10-22 18:30Z",
+   "filled": "80.0%",
    "status": "CHECK",
-   "note": "11 of 15 days recorded; newest step 1.7 h old; scale: matched to CanCPLD ground, month 10"
+   "note": "12 of 15 days recorded; newest step 0.8 h old; scale: matched to CanCPLD ground, month 10"
   },
   {
    "input": "Roads, population, terrain",
@@ -56,7 +56,7 @@
    "updated": "v7",
    "filled": "",
    "status": "CHECK",
-   "note": "inputs missing/empty: ['cg3_lag11', 'cg3_lag12', 'cg3_lag13', 'cg3_lag14']"
+   "note": "inputs missing/empty: ['cg3_lag12', 'cg3_lag13', 'cg3_lag14']"
   }
  ]
 }
