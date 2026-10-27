@@ -17,7 +17,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_3557294ccc7ec6462885c67bf2b592a8 {
+                #map_77a60d1a93d9e25acbc6579be22629f7 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -55,7 +55,7 @@
     
     <script>
 window.addEventListener('load', function () {
-  var mp = map_3557294ccc7ec6462885c67bf2b592a8, dots = feature_group_89c40dad52ef6572a931e9c92b7d1f4a;
+  var mp = map_77a60d1a93d9e25acbc6579be22629f7, dots = feature_group_ae35a9d419b12b521daa17281888eb7d;
   function upd() { if (mp.getZoom() >= 7) { if (mp.hasLayer(dots)) mp.removeLayer(dots); } else { if (!mp.hasLayer(dots)) mp.addLayer(dots); } }
   mp.on('zoomend', upd); upd();
 });
@@ -73,21 +73,21 @@ Colour = the model's chance that a <b>reported lightning-caused fire</b> follows
 <details style="margin-top:6px"><summary style="cursor:pointer;font-size:12px"><b>Coverage and known weak spots</b></summary>
 <div style="font-size:12px">Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; fewer fires to learn from). In 21 years of out-of-sample tests the shown % ran about 1.3-1.5x too high in the North, Saskatchewan, Yukon and Newfoundland, and too low in October. Treat those as rough.</div></details>
 <div style='margin-top:6px'><b>No lightning detected in the last 24 h.</b></div>
-<details style='margin-top:6px'><summary style='cursor:pointer'><b>Data health: <span style='color:#1a7f37'>OK</span></b></summary><table style='font-size:11px;border-collapse:collapse;margin-top:4px'><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Rain (24 h + 7 days)<br><span style='color:#555'>100.0% newest slice 5 h old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Temperature, humidity, wind<br><span style='color:#555'>100.0% forecast, not the daily mean used in training</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Vegetation (NDVI)<br><span style='color:#555'>99.9% 42 days old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Recent fires (50 km, 30 days)<br><span style='color:#555'>100.0% live</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Lightning (15-day memory)<br><span style='color:#555'>100.0% 15 of 15 days recorded; newest step 0.4 h old; scale: matched to CanCPLD ground, month 10</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Roads, population, terrain<br><span style='color:#555'>100.0% </span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Model<br><span style='color:#555'> all 34 inputs present</span></td></tr></table></details>
-<div style="margin-top:6px;font-size:11px;color:#555">Lightning to 2026-10-26 22:30 UTC | weather 2026-10-26T22:00Z<br>
-NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-10-26 22:52 UTC</div>
+<details style='margin-top:6px'><summary style='cursor:pointer'><b>Data health: <span style='color:#b7791f'>CHECK</span></b></summary><table style='font-size:11px;border-collapse:collapse;margin-top:4px'><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Rain (24 h + 7 days)<br><span style='color:#555'>100.0% newest slice 6 h old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Temperature, humidity, wind<br><span style='color:#555'>100.0% forecast, not the daily mean used in training</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Vegetation (NDVI)<br><span style='color:#555'>99.9% 43 days old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Recent fires (50 km, 30 days)<br><span style='color:#555'>100.0% live</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#b7791f'><b>CHECK</b></span></td><td style='padding:1px 4px'>Lightning (15-day memory)<br><span style='color:#555'>100.0% 15 of 15 days recorded; newest step 7.1 h old; scale: matched to CanCPLD ground, month 10</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Roads, population, terrain<br><span style='color:#555'>100.0% </span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Model<br><span style='color:#555'> all 34 inputs present</span></td></tr></table></details>
+<div style="margin-top:6px;font-size:11px;color:#555">Lightning to 2026-10-26 22:30 UTC | weather 2026-10-27T05:00Z<br>
+NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-10-27 05:35 UTC</div>
 </details>
 
 </div>
     
-            <div class="folium-map" id="map_3557294ccc7ec6462885c67bf2b592a8" ></div>
+            <div class="folium-map" id="map_77a60d1a93d9e25acbc6579be22629f7" ></div>
         
 </body>
 <script>
     
     
-            var map_3557294ccc7ec6462885c67bf2b592a8 = L.map(
-                "map_3557294ccc7ec6462885c67bf2b592a8",
+            var map_77a60d1a93d9e25acbc6579be22629f7 = L.map(
+                "map_77a60d1a93d9e25acbc6579be22629f7",
                 {
                     center: [55.0, -96.0],
                     crs: L.CRS.EPSG3857,
@@ -114,13 +114,13 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-10-26 22:52 UTC
 
         
     
-            map_3557294ccc7ec6462885c67bf2b592a8.fitBounds(
+            map_77a60d1a93d9e25acbc6579be22629f7.fitBounds(
                 [[41.5, -141.5], [66.5, -52.0]],
                 {}
             );
         
     
-            var tile_layer_dda5f3a0c0e3ad7c6b437aaff7a4e1ae = L.tileLayer(
+            var tile_layer_20d3dee90df86dab165877ff46da87d8 = L.tileLayer(
                 "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
                 {
   "minZoom": 0,
@@ -137,10 +137,10 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-10-26 22:52 UTC
             );
         
     
-            tile_layer_dda5f3a0c0e3ad7c6b437aaff7a4e1ae.addTo(map_3557294ccc7ec6462885c67bf2b592a8);
+            tile_layer_20d3dee90df86dab165877ff46da87d8.addTo(map_77a60d1a93d9e25acbc6579be22629f7);
         
     
-            var feature_group_89c40dad52ef6572a931e9c92b7d1f4a = L.featureGroup(
+            var feature_group_ae35a9d419b12b521daa17281888eb7d = L.featureGroup(
                 {
 }
             );
