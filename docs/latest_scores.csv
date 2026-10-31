@@ -1,10 +1,1 @@
 LAT,LON,province,region,prob,lightning_24h_pixels,lightning_history_days,flag_north,flag_short_history,flag_missing_inputs,asof_utc,model_version,lightning_scale_mode
-42.5,-80.4,ON,East,0.0003871988775745035,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.5,-80.3,ON,East,0.0004155210385557309,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.5,-80.2,ON,East,0.00042870608712665403,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.6,-80.4,ON,East,0.00024849883255205393,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.6,-80.3,ON,East,0.0006183612964444039,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.6,-80.2,ON,East,0.0006830683504601426,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.7,-80.4,ON,East,0.0008021268624016357,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.7,-80.3,ON,East,0.0010036616792636047,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
-42.7,-80.2,ON,East,0.0013499615912265597,1.0,11,False,True,False,2026-10-30T23:40Z,v7,"matched to CanCPLD ground, month 10"
