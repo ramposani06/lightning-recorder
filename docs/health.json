@@ -1,19 +1,19 @@
 {
- "built_utc": "2026-11-01T22:24Z",
+ "built_utc": "2026-11-02T06:48Z",
  "overall": "CHECK",
  "rows": [
   {
    "input": "Rain (24 h + 7 days)",
    "source": "Environment Canada RDPA 6-hour analysis",
-   "updated": "2026-11-01T18:00Z",
+   "updated": "2026-11-02T00:00Z",
    "filled": "100.0%",
    "status": "OK",
-   "note": "newest slice 4 h old"
+   "note": "newest slice 7 h old"
   },
   {
    "input": "Temperature, humidity, wind",
    "source": "Environment Canada HRDPS forecast (next 24 h)",
-   "updated": "2026-11-01T22:00Z",
+   "updated": "2026-11-02T06:00Z",
    "filled": "100.0%",
    "status": "OK",
    "note": "forecast, not the daily mean used in training"
@@ -24,12 +24,12 @@
    "updated": "2026-09-14",
    "filled": "99.9%",
    "status": "OK",
-   "note": "48 days old"
+   "note": "49 days old"
   },
   {
    "input": "Recent fires (50 km, 30 days)",
    "source": "CWFIS",
-   "updated": "2026-11-01 22:24Z",
+   "updated": "2026-11-02 06:48Z",
    "filled": "100.0%",
    "status": "OK",
    "note": "live"
@@ -37,10 +37,10 @@
   {
    "input": "Lightning (15-day memory)",
    "source": "Recorded from Environment Canada (ground + cloud)",
-   "updated": "2026-11-01 19:30Z",
-   "filled": "66.7%",
+   "updated": "2026-11-02 06:10Z",
+   "filled": "73.3%",
    "status": "CHECK",
-   "note": "10 of 15 days recorded; newest step 2.9 h old; scale: matched to CanCPLD ground, month 11"
+   "note": "11 of 15 days recorded; newest step 0.6 h old; scale: matched to CanCPLD ground, month 11"
   },
   {
    "input": "Roads, population, terrain",
@@ -56,7 +56,7 @@
    "updated": "v7",
    "filled": "",
    "status": "CHECK",
-   "note": "inputs missing/empty: ['cg3_lag0', 'cg3_lag2', 'cg3_lag3', 'cg3_lag4', 'cg3_lag5']"
+   "note": "inputs missing/empty: ['cg3_lag2', 'cg3_lag3', 'cg3_lag4', 'cg3_lag6']"
   }
  ]
 }
