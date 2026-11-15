@@ -3,13 +3,12 @@
 <head>
     
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
@@ -17,10 +16,11 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_bfe8d4d27bf6357a10cfce8fa283b4ee {
+                #map_b31d4ad969b45fa7175e79096d6dfe73 {
                     position: relative;
-                    width: 100.0%;
-                    height: 100.0%;
+                    width: 100.0vw;
+                    height: 100.0vh;
+
                     left: 0.0%;
                     top: 0.0%;
                 }
@@ -35,14 +35,218 @@
             }
             </style>
 
-            <style>#map {
-                position:absolute;
-                top:0;
-                bottom:0;
-                right:0;
-                left:0;
-                }
-            </style>
+            <style>/*
+ * Glyphicons Halflings -- the icon font used by folium's default Awesome Markers
+ * (Icon(prefix="glyphicon")). Extracted from Bootstrap 3's glyphicon rules only.
+ *
+ * folium previously loaded netdna's bootstrap-glyphicons.css, which despite its
+ * name ships a full Bootstrap-3 base stylesheet (normalize reset + global `body`
+ * rules) that leaked onto the host page (GH-1820). This file provides just the
+ * @font-face and .glyphicon/.glyphicon-* rules needed for the markers, with no
+ * page-wide side effects. Font files are served from jsDelivr.
+ */
+@font-face{font-family:'Glyphicons Halflings';src:url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.eot');src:url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.woff') format('woff'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.ttf') format('truetype'),url('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing:antialiased;}
+.glyphicon-asterisk:before{content:"\2a";}
+.glyphicon-plus:before{content:"\2b";}
+.glyphicon-euro:before{content:"\20ac";}
+.glyphicon-minus:before{content:"\2212";}
+.glyphicon-cloud:before{content:"\2601";}
+.glyphicon-envelope:before{content:"\2709";}
+.glyphicon-pencil:before{content:"\270f";}
+.glyphicon-glass:before{content:"\e001";}
+.glyphicon-music:before{content:"\e002";}
+.glyphicon-search:before{content:"\e003";}
+.glyphicon-heart:before{content:"\e005";}
+.glyphicon-star:before{content:"\e006";}
+.glyphicon-star-empty:before{content:"\e007";}
+.glyphicon-user:before{content:"\e008";}
+.glyphicon-film:before{content:"\e009";}
+.glyphicon-th-large:before{content:"\e010";}
+.glyphicon-th:before{content:"\e011";}
+.glyphicon-th-list:before{content:"\e012";}
+.glyphicon-ok:before{content:"\e013";}
+.glyphicon-remove:before{content:"\e014";}
+.glyphicon-zoom-in:before{content:"\e015";}
+.glyphicon-zoom-out:before{content:"\e016";}
+.glyphicon-off:before{content:"\e017";}
+.glyphicon-signal:before{content:"\e018";}
+.glyphicon-cog:before{content:"\e019";}
+.glyphicon-trash:before{content:"\e020";}
+.glyphicon-home:before{content:"\e021";}
+.glyphicon-file:before{content:"\e022";}
+.glyphicon-time:before{content:"\e023";}
+.glyphicon-road:before{content:"\e024";}
+.glyphicon-download-alt:before{content:"\e025";}
+.glyphicon-download:before{content:"\e026";}
+.glyphicon-upload:before{content:"\e027";}
+.glyphicon-inbox:before{content:"\e028";}
+.glyphicon-play-circle:before{content:"\e029";}
+.glyphicon-repeat:before{content:"\e030";}
+.glyphicon-refresh:before{content:"\e031";}
+.glyphicon-list-alt:before{content:"\e032";}
+.glyphicon-flag:before{content:"\e034";}
+.glyphicon-headphones:before{content:"\e035";}
+.glyphicon-volume-off:before{content:"\e036";}
+.glyphicon-volume-down:before{content:"\e037";}
+.glyphicon-volume-up:before{content:"\e038";}
+.glyphicon-qrcode:before{content:"\e039";}
+.glyphicon-barcode:before{content:"\e040";}
+.glyphicon-tag:before{content:"\e041";}
+.glyphicon-tags:before{content:"\e042";}
+.glyphicon-book:before{content:"\e043";}
+.glyphicon-print:before{content:"\e045";}
+.glyphicon-font:before{content:"\e047";}
+.glyphicon-bold:before{content:"\e048";}
+.glyphicon-italic:before{content:"\e049";}
+.glyphicon-text-height:before{content:"\e050";}
+.glyphicon-text-width:before{content:"\e051";}
+.glyphicon-align-left:before{content:"\e052";}
+.glyphicon-align-center:before{content:"\e053";}
+.glyphicon-align-right:before{content:"\e054";}
+.glyphicon-align-justify:before{content:"\e055";}
+.glyphicon-list:before{content:"\e056";}
+.glyphicon-indent-left:before{content:"\e057";}
+.glyphicon-indent-right:before{content:"\e058";}
+.glyphicon-facetime-video:before{content:"\e059";}
+.glyphicon-picture:before{content:"\e060";}
+.glyphicon-map-marker:before{content:"\e062";}
+.glyphicon-adjust:before{content:"\e063";}
+.glyphicon-tint:before{content:"\e064";}
+.glyphicon-edit:before{content:"\e065";}
+.glyphicon-share:before{content:"\e066";}
+.glyphicon-check:before{content:"\e067";}
+.glyphicon-move:before{content:"\e068";}
+.glyphicon-step-backward:before{content:"\e069";}
+.glyphicon-fast-backward:before{content:"\e070";}
+.glyphicon-backward:before{content:"\e071";}
+.glyphicon-play:before{content:"\e072";}
+.glyphicon-pause:before{content:"\e073";}
+.glyphicon-stop:before{content:"\e074";}
+.glyphicon-forward:before{content:"\e075";}
+.glyphicon-fast-forward:before{content:"\e076";}
+.glyphicon-step-forward:before{content:"\e077";}
+.glyphicon-eject:before{content:"\e078";}
+.glyphicon-chevron-left:before{content:"\e079";}
+.glyphicon-chevron-right:before{content:"\e080";}
+.glyphicon-plus-sign:before{content:"\e081";}
+.glyphicon-minus-sign:before{content:"\e082";}
+.glyphicon-remove-sign:before{content:"\e083";}
+.glyphicon-ok-sign:before{content:"\e084";}
+.glyphicon-question-sign:before{content:"\e085";}
+.glyphicon-info-sign:before{content:"\e086";}
+.glyphicon-screenshot:before{content:"\e087";}
+.glyphicon-remove-circle:before{content:"\e088";}
+.glyphicon-ok-circle:before{content:"\e089";}
+.glyphicon-ban-circle:before{content:"\e090";}
+.glyphicon-arrow-left:before{content:"\e091";}
+.glyphicon-arrow-right:before{content:"\e092";}
+.glyphicon-arrow-up:before{content:"\e093";}
+.glyphicon-arrow-down:before{content:"\e094";}
+.glyphicon-share-alt:before{content:"\e095";}
+.glyphicon-resize-full:before{content:"\e096";}
+.glyphicon-resize-small:before{content:"\e097";}
+.glyphicon-exclamation-sign:before{content:"\e101";}
+.glyphicon-gift:before{content:"\e102";}
+.glyphicon-leaf:before{content:"\e103";}
+.glyphicon-eye-open:before{content:"\e105";}
+.glyphicon-eye-close:before{content:"\e106";}
+.glyphicon-warning-sign:before{content:"\e107";}
+.glyphicon-plane:before{content:"\e108";}
+.glyphicon-random:before{content:"\e110";}
+.glyphicon-comment:before{content:"\e111";}
+.glyphicon-magnet:before{content:"\e112";}
+.glyphicon-chevron-up:before{content:"\e113";}
+.glyphicon-chevron-down:before{content:"\e114";}
+.glyphicon-retweet:before{content:"\e115";}
+.glyphicon-shopping-cart:before{content:"\e116";}
+.glyphicon-folder-close:before{content:"\e117";}
+.glyphicon-folder-open:before{content:"\e118";}
+.glyphicon-resize-vertical:before{content:"\e119";}
+.glyphicon-resize-horizontal:before{content:"\e120";}
+.glyphicon-hdd:before{content:"\e121";}
+.glyphicon-bullhorn:before{content:"\e122";}
+.glyphicon-certificate:before{content:"\e124";}
+.glyphicon-thumbs-up:before{content:"\e125";}
+.glyphicon-thumbs-down:before{content:"\e126";}
+.glyphicon-hand-right:before{content:"\e127";}
+.glyphicon-hand-left:before{content:"\e128";}
+.glyphicon-hand-up:before{content:"\e129";}
+.glyphicon-hand-down:before{content:"\e130";}
+.glyphicon-circle-arrow-right:before{content:"\e131";}
+.glyphicon-circle-arrow-left:before{content:"\e132";}
+.glyphicon-circle-arrow-up:before{content:"\e133";}
+.glyphicon-circle-arrow-down:before{content:"\e134";}
+.glyphicon-globe:before{content:"\e135";}
+.glyphicon-tasks:before{content:"\e137";}
+.glyphicon-filter:before{content:"\e138";}
+.glyphicon-fullscreen:before{content:"\e140";}
+.glyphicon-dashboard:before{content:"\e141";}
+.glyphicon-heart-empty:before{content:"\e143";}
+.glyphicon-link:before{content:"\e144";}
+.glyphicon-phone:before{content:"\e145";}
+.glyphicon-usd:before{content:"\e148";}
+.glyphicon-gbp:before{content:"\e149";}
+.glyphicon-sort:before{content:"\e150";}
+.glyphicon-sort-by-alphabet:before{content:"\e151";}
+.glyphicon-sort-by-alphabet-alt:before{content:"\e152";}
+.glyphicon-sort-by-order:before{content:"\e153";}
+.glyphicon-sort-by-order-alt:before{content:"\e154";}
+.glyphicon-sort-by-attributes:before{content:"\e155";}
+.glyphicon-sort-by-attributes-alt:before{content:"\e156";}
+.glyphicon-unchecked:before{content:"\e157";}
+.glyphicon-expand:before{content:"\e158";}
+.glyphicon-collapse-down:before{content:"\e159";}
+.glyphicon-collapse-up:before{content:"\e160";}
+.glyphicon-log-in:before{content:"\e161";}
+.glyphicon-flash:before{content:"\e162";}
+.glyphicon-log-out:before{content:"\e163";}
+.glyphicon-new-window:before{content:"\e164";}
+.glyphicon-record:before{content:"\e165";}
+.glyphicon-save:before{content:"\e166";}
+.glyphicon-open:before{content:"\e167";}
+.glyphicon-saved:before{content:"\e168";}
+.glyphicon-import:before{content:"\e169";}
+.glyphicon-export:before{content:"\e170";}
+.glyphicon-send:before{content:"\e171";}
+.glyphicon-floppy-disk:before{content:"\e172";}
+.glyphicon-floppy-saved:before{content:"\e173";}
+.glyphicon-floppy-remove:before{content:"\e174";}
+.glyphicon-floppy-save:before{content:"\e175";}
+.glyphicon-floppy-open:before{content:"\e176";}
+.glyphicon-credit-card:before{content:"\e177";}
+.glyphicon-transfer:before{content:"\e178";}
+.glyphicon-cutlery:before{content:"\e179";}
+.glyphicon-header:before{content:"\e180";}
+.glyphicon-compressed:before{content:"\e181";}
+.glyphicon-earphone:before{content:"\e182";}
+.glyphicon-phone-alt:before{content:"\e183";}
+.glyphicon-tower:before{content:"\e184";}
+.glyphicon-stats:before{content:"\e185";}
+.glyphicon-sd-video:before{content:"\e186";}
+.glyphicon-hd-video:before{content:"\e187";}
+.glyphicon-subtitles:before{content:"\e188";}
+.glyphicon-sound-stereo:before{content:"\e189";}
+.glyphicon-sound-dolby:before{content:"\e190";}
+.glyphicon-sound-5-1:before{content:"\e191";}
+.glyphicon-sound-6-1:before{content:"\e192";}
+.glyphicon-sound-7-1:before{content:"\e193";}
+.glyphicon-copyright-mark:before{content:"\e194";}
+.glyphicon-registration-mark:before{content:"\e195";}
+.glyphicon-cloud-download:before{content:"\e197";}
+.glyphicon-cloud-upload:before{content:"\e198";}
+.glyphicon-tree-conifer:before{content:"\e199";}
+.glyphicon-tree-deciduous:before{content:"\e200";}
+.glyphicon-briefcase:before{content:"\1f4bc";}
+.glyphicon-calendar:before{content:"\1f4c5";}
+.glyphicon-pushpin:before{content:"\1f4cc";}
+.glyphicon-paperclip:before{content:"\1f4ce";}
+.glyphicon-camera:before{content:"\1f4f7";}
+.glyphicon-lock:before{content:"\1f512";}
+.glyphicon-bell:before{content:"\1f514";}
+.glyphicon-bookmark:before{content:"\1f516";}
+.glyphicon-fire:before{content:"\1f525";}
+.glyphicon-wrench:before{content:"\1f527";}
+</style>
 
             <script>
                 L_NO_TOUCH = false;
@@ -55,7 +259,7 @@
     
     <script>
 window.addEventListener('load', function () {
-  var mp = map_bfe8d4d27bf6357a10cfce8fa283b4ee, dots = feature_group_767b20016fa2068a1b3b45179df8d92f;
+  var mp = map_b31d4ad969b45fa7175e79096d6dfe73, dots = feature_group_1d3b4a26143154bafb207b1925c7e22f;
   function upd() { if (mp.getZoom() >= 7) { if (mp.hasLayer(dots)) mp.removeLayer(dots); } else { if (!mp.hasLayer(dots)) mp.addLayer(dots); } }
   mp.on('zoomend', upd); upd();
 });
@@ -72,22 +276,22 @@ Colour = the model's chance that a <b>reported lightning-caused fire</b> follows
 <div style="margin-top:6px"><div><span style='background:#ffe14d;display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>under 0.53% (real: about 0.1%)</div><div><span style='background:#ffb000;display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>0.53 - 1% (real: about 0.7%)</div><div><span style='background:#ff6a00;display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>1 - 2% (real: about 1.4%)</div><div><span style='background:#e0201b;display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>2 - 3.7% (real: about 2.9%)</div><div><span style='background:#a00060;display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>3.7 - 7.4% (real: about 5.5%)</div><div><span style='background:#5a1a8a;display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>7.4 - 16% (real: about 11%)</div><div><span style='background:#1a0033;display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid #555'></span>over 16% (real: about 25%)</div></div>
 <details style="margin-top:6px"><summary style="cursor:pointer;font-size:12px"><b>Coverage and known weak spots</b></summary>
 <div style="font-size:12px">Canadian land up to 66&deg;N. Lightning north of 66&deg;N and outside Canada is not scored. Dashed outline = Yukon/NT/Nunavut (less certain; fewer fires to learn from). In 21 years of out-of-sample tests the shown % ran about 1.3-1.5x too high in the North, Saskatchewan, Yukon and Newfoundland, and too low in October. Treat those as rough.</div></details>
-<div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: short lightning history (4 of 15 days). Probabilities are NOT reliable yet.</div><div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: vegetation (NDVI) data is 62 days old. Run the monthly refresh.</div>
-<details style='margin-top:6px'><summary style='cursor:pointer'><b>Data health: <span style='color:#b7791f'>CHECK</span></b></summary><table style='font-size:11px;border-collapse:collapse;margin-top:4px'><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Rain (24 h + 7 days)<br><span style='color:#555'>100.0% newest slice 1 h old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Temperature, humidity, wind<br><span style='color:#555'>100.0% forecast, not the daily mean used in training</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#b7791f'><b>CHECK</b></span></td><td style='padding:1px 4px'>Vegetation (NDVI)<br><span style='color:#555'>99.9% 62 days old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Recent fires (50 km, 30 days)<br><span style='color:#555'>100.0% live</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#b7791f'><b>CHECK</b></span></td><td style='padding:1px 4px'>Lightning (15-day memory)<br><span style='color:#555'>26.7% 4 of 15 days recorded; newest step 4.7 h old; scale: fixed 0.35</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Roads, population, terrain<br><span style='color:#555'>100.0% </span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#b7791f'><b>CHECK</b></span></td><td style='padding:1px 4px'>Model<br><span style='color:#555'> inputs missing/empty: ['cg3_lag1', 'cg3_lag2', 'cg3_lag3', 'cg3_lag4', 'cg3_lag5', 'cg3_lag6', 'cg3_lag8', 'cg3_lag10', 'cg3_lag11', 'cg3_lag12', 'cg3_lag13']</span></td></tr></table></details>
-<div style="margin-top:6px;font-size:11px;color:#555">Lightning to 2026-11-15 02:30 UTC | weather 2026-11-15T07:00Z<br>
-NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC</div>
+<div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: short lightning history (5 of 15 days). Probabilities are NOT reliable yet.</div><div style='color:#b00;font-weight:bold;margin-top:4px'>WARNING: vegetation (NDVI) data is 62 days old. Run the monthly refresh.</div>
+<details style='margin-top:6px'><summary style='cursor:pointer'><b>Data health: <span style='color:#b7791f'>CHECK</span></b></summary><table style='font-size:11px;border-collapse:collapse;margin-top:4px'><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Rain (24 h + 7 days)<br><span style='color:#555'>100.0% newest slice 5 h old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Temperature, humidity, wind<br><span style='color:#555'>100.0% forecast, not the daily mean used in training</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#b7791f'><b>CHECK</b></span></td><td style='padding:1px 4px'>Vegetation (NDVI)<br><span style='color:#555'>99.9% 62 days old</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Recent fires (50 km, 30 days)<br><span style='color:#555'>100.0% live</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#b7791f'><b>CHECK</b></span></td><td style='padding:1px 4px'>Lightning (15-day memory)<br><span style='color:#555'>33.3% 5 of 15 days recorded; newest step 5.6 h old; scale: fixed 0.35</span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#1a7f37'><b>OK</b></span></td><td style='padding:1px 4px'>Roads, population, terrain<br><span style='color:#555'>100.0% </span></td></tr><tr><td style='padding:1px 4px;vertical-align:top'><span style='color:#b7791f'><b>CHECK</b></span></td><td style='padding:1px 4px'>Model<br><span style='color:#555'> inputs missing/empty: ['cg3_lag1', 'cg3_lag2', 'cg3_lag3', 'cg3_lag4', 'cg3_lag5', 'cg3_lag6', 'cg3_lag10', 'cg3_lag11', 'cg3_lag12', 'cg3_lag14']</span></td></tr></table></details>
+<div style="margin-top:6px;font-size:11px;color:#555">Lightning to 2026-11-15 11:00 UTC | weather 2026-11-15T16:00Z<br>
+NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 16:35 UTC</div>
 </details>
 <div style='color:#b00;font-weight:bold;font-size:12px;margin-top:4px'>Short lightning history - probabilities not reliable yet</div>
 </div>
     
-            <div class="folium-map" id="map_bfe8d4d27bf6357a10cfce8fa283b4ee" ></div>
+            <div class="folium-map" id="map_b31d4ad969b45fa7175e79096d6dfe73" ></div>
         
 </body>
 <script>
     
     
-            var map_bfe8d4d27bf6357a10cfce8fa283b4ee = L.map(
-                "map_bfe8d4d27bf6357a10cfce8fa283b4ee",
+            var map_b31d4ad969b45fa7175e79096d6dfe73 = L.map(
+                "map_b31d4ad969b45fa7175e79096d6dfe73",
                 {
                     center: [55.0, -96.0],
                     crs: L.CRS.EPSG3857,
@@ -114,13 +318,13 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
 
         
     
-            map_bfe8d4d27bf6357a10cfce8fa283b4ee.fitBounds(
+            map_b31d4ad969b45fa7175e79096d6dfe73.fitBounds(
                 [[41.5, -141.5], [66.5, -52.0]],
                 {}
             );
         
     
-            var tile_layer_571ae5eec3187735071bd5d257413b8b = L.tileLayer(
+            var tile_layer_4e474913498c4e908e0588d1e6548c93 = L.tileLayer(
                 "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
                 {
   "minZoom": 0,
@@ -137,18 +341,18 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            tile_layer_571ae5eec3187735071bd5d257413b8b.addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            tile_layer_4e474913498c4e908e0588d1e6548c93.addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            var rectangle_a9dbb5105119bf8fb48a43bd87c759ed = L.rectangle(
+            var rectangle_d4c7bbe4da99f64016b657b1f65377b2 = L.rectangle(
                 [[45.35, -73.75], [45.449999999999996, -73.65]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_a9dbb5105119bf8fb48a43bd87c759ed.bindTooltip(
+            rectangle_d4c7bbe4da99f64016b657b1f65377b2.bindTooltip(
                 `<div>
-                     <b>0.03%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.6 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 5.1 &deg;C | humidity 73% | wind 5.5 m/s (forecast)<br>NDVI 0.56 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.03%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.5 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 4.5 &deg;C | humidity 76% | wind 5.6 m/s (forecast)<br>NDVI 0.56 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -156,15 +360,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_8a57004dde21aba95ad16446f16a7197 = L.rectangle(
+            var rectangle_f3c676dfc3ed141aa527e78676a6cc8e = L.rectangle(
                 [[45.35, -73.64999999999999], [45.449999999999996, -73.55]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_8a57004dde21aba95ad16446f16a7197.bindTooltip(
+            rectangle_f3c676dfc3ed141aa527e78676a6cc8e.bindTooltip(
                 `<div>
-                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.6 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 4.6 &deg;C | humidity 73% | wind 4.3 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.5 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 3.9 &deg;C | humidity 76% | wind 4.4 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -172,15 +376,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_bb91ec180737fcc1b468f53a387eb80a = L.rectangle(
+            var rectangle_6acd59f58f593e40edae541df6e02ebd = L.rectangle(
                 [[45.35, -73.55], [45.449999999999996, -73.45]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_bb91ec180737fcc1b468f53a387eb80a.bindTooltip(
+            rectangle_6acd59f58f593e40edae541df6e02ebd.bindTooltip(
                 `<div>
-                     <b>0.04%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.4 mm last 24 h, 3.1 mm in the 7 days before; 3 days since rain<br>Temp 4.6 &deg;C | humidity 72% | wind 3.8 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.04%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.4 mm last 24 h, 3.1 mm in the 7 days before; 3 days since rain<br>Temp 4.2 &deg;C | humidity 73% | wind 3.9 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -188,15 +392,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_883b6cf3a5c411697234a27f6c3e6a62 = L.rectangle(
+            var rectangle_13f99ebee2a9b51350a1aec0bf49f27b = L.rectangle(
                 [[45.45, -73.75], [45.55, -73.65]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_883b6cf3a5c411697234a27f6c3e6a62.bindTooltip(
+            rectangle_13f99ebee2a9b51350a1aec0bf49f27b.bindTooltip(
                 `<div>
-                     <b>0.17%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 4.1 &deg;C | humidity 70% | wind 3.3 m/s (forecast)<br>NDVI 0.49 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.14%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 2.8 &deg;C | humidity 76% | wind 3.2 m/s (forecast)<br>NDVI 0.49 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -204,15 +408,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_dfdfd8b03fd7ad4ac48941eb391b49ae = L.rectangle(
+            var rectangle_a2f84163a333ec22ffc2539d3817a70e = L.rectangle(
                 [[45.45, -73.64999999999999], [45.55, -73.55]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_dfdfd8b03fd7ad4ac48941eb391b49ae.bindTooltip(
+            rectangle_a2f84163a333ec22ffc2539d3817a70e.bindTooltip(
                 `<div>
-                     <b>0.19%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 4.0 &deg;C | humidity 70% | wind 3.1 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.16%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 2.8 &deg;C | humidity 75% | wind 3.1 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -220,15 +424,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_3bb691993c3ddb4fd0362ff210b735d9 = L.rectangle(
+            var rectangle_f0d63918ced8ecc9ac3d2e0487b24ba9 = L.rectangle(
                 [[45.45, -73.55], [45.55, -73.45]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_3bb691993c3ddb4fd0362ff210b735d9.bindTooltip(
+            rectangle_f0d63918ced8ecc9ac3d2e0487b24ba9.bindTooltip(
                 `<div>
-                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.9 mm in the 7 days before; 7 days since rain<br>Temp 4.4 &deg;C | humidity 72% | wind 3.2 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.5 mm last 24 h, 1.9 mm in the 7 days before; 7 days since rain<br>Temp 3.4 &deg;C | humidity 73% | wind 3.3 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -236,15 +440,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_96c1756f5b6d58cd6a55144619e22186 = L.rectangle(
+            var rectangle_a892720f1aaffd53b730dd466eb4bfa2 = L.rectangle(
                 [[45.550000000000004, -73.75], [45.65, -73.65]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_96c1756f5b6d58cd6a55144619e22186.bindTooltip(
+            rectangle_a892720f1aaffd53b730dd466eb4bfa2.bindTooltip(
                 `<div>
-                     <b>0.30%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 1.7 mm last 24 h, 1.0 mm in the 7 days before; 7 days since rain<br>Temp 4.0 &deg;C | humidity 73% | wind 3.0 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.27%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 1.7 mm last 24 h, 1.0 mm in the 7 days before; 7 days since rain<br>Temp 2.3 &deg;C | humidity 78% | wind 3.0 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -252,15 +456,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_01cfa3b561240e15e4802c8b74cf10fa = L.rectangle(
+            var rectangle_3219514efa28517413f7eeddf968f423 = L.rectangle(
                 [[45.550000000000004, -73.64999999999999], [45.65, -73.55]],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
+            ).addTo(map_b31d4ad969b45fa7175e79096d6dfe73);
         
     
-            rectangle_01cfa3b561240e15e4802c8b74cf10fa.bindTooltip(
+            rectangle_3219514efa28517413f7eeddf968f423.bindTooltip(
                 `<div>
-                     <b>0.34%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.1 mm last 24 h, 1.3 mm in the 7 days before; 7 days since rain<br>Temp 4.2 &deg;C | humidity 71% | wind 3.0 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.29%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.0 mm last 24 h, 1.3 mm in the 7 days before; 7 days since rain<br>Temp 2.6 &deg;C | humidity 75% | wind 3.1 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -268,389 +472,21 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var rectangle_464e492870c2a4aa90ff1d640edc5774 = L.rectangle(
-                [[46.85, -54.15], [46.949999999999996, -54.050000000000004]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_464e492870c2a4aa90ff1d640edc5774.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -54.1<hr style='margin:3px 0'>Lightning (last 24 h): 5 lit pixels, about 2.8 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 43.6 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 94% | wind 3.7 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_b91f12b73d29940ace8cc775df5e872f = L.rectangle(
-                [[46.85, -54.05], [46.949999999999996, -53.95]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_b91f12b73d29940ace8cc775df5e872f.bindTooltip(
-                `<div>
-                     <b>0.03%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -54.0<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 51.2 mm in the 7 days before; 0 days since rain<br>Temp 3.7 &deg;C | humidity 93% | wind 3.4 m/s (forecast)<br>NDVI 0.79 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_266d141051414d06586843469b16bfa6 = L.rectangle(
-                [[46.85, -53.949999999999996], [46.949999999999996, -53.85]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_266d141051414d06586843469b16bfa6.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -53.9<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 51.2 mm in the 7 days before; 0 days since rain<br>Temp 4.9 &deg;C | humidity 88% | wind 5.3 m/s (forecast)<br>NDVI 0.79 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_3049a19aed76f88b6c4b3f53b0c4d60b = L.rectangle(
-                [[46.85, -53.65], [46.949999999999996, -53.550000000000004]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_3049a19aed76f88b6c4b3f53b0c4d60b.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -53.6<hr style='margin:3px 0'>Lightning (last 24 h): 4 lit pixels, about 2.2 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 44.1 mm in the 7 days before; 0 days since rain<br>Temp 5.2 &deg;C | humidity 86% | wind 5.8 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_80359000318a666ed2884b350f5c69c0 = L.rectangle(
-                [[46.85, -53.55], [46.949999999999996, -53.45]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_80359000318a666ed2884b350f5c69c0.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -53.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 44.1 mm in the 7 days before; 0 days since rain<br>Temp 4.3 &deg;C | humidity 90% | wind 4.4 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_f897e35af96e71505d53661af7be40df = L.rectangle(
-                [[46.95, -54.15], [47.05, -54.050000000000004]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_f897e35af96e71505d53661af7be40df.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -54.1<hr style='margin:3px 0'>Lightning (last 24 h): 5 lit pixels, about 2.8 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 42.6 mm in the 7 days before; 0 days since rain<br>Temp 3.9 &deg;C | humidity 91% | wind 4.1 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_91cec49e84feeb4397e81d055b00e963 = L.rectangle(
-                [[46.95, -54.05], [47.05, -53.95]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_91cec49e84feeb4397e81d055b00e963.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -54.0<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 47.2 mm in the 7 days before; 0 days since rain<br>Temp 2.8 &deg;C | humidity 95% | wind 3.9 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_b2968910e428ee598fef57335de4e170 = L.rectangle(
-                [[46.95, -53.949999999999996], [47.05, -53.85]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_b2968910e428ee598fef57335de4e170.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.9<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.1 mm in the 7 days before; 0 days since rain<br>Temp 3.2 &deg;C | humidity 94% | wind 3.8 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_7540e5534824ff22f6bff6668c5e2787 = L.rectangle(
-                [[46.95, -53.849999999999994], [47.05, -53.75]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_7540e5534824ff22f6bff6668c5e2787.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.8<hr style='margin:3px 0'>Lightning (last 24 h): 5 lit pixels, about 2.8 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 50.4 mm in the 7 days before; 0 days since rain<br>Temp 5.1 &deg;C | humidity 86% | wind 5.6 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_ba3e9923e48667be30bfd6e2568b91d2 = L.rectangle(
-                [[46.95, -53.65], [47.05, -53.550000000000004]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_ba3e9923e48667be30bfd6e2568b91d2.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.6<hr style='margin:3px 0'>Lightning (last 24 h): 4 lit pixels, about 2.2 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 45.0 mm in the 7 days before; 0 days since rain<br>Temp 4.6 &deg;C | humidity 89% | wind 4.7 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_92ba46da995f70748d0e3927a29268e3 = L.rectangle(
-                [[46.95, -53.55], [47.05, -53.45]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_92ba46da995f70748d0e3927a29268e3.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 46.7 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 93% | wind 3.7 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_cf034b2d910135c2f89d6c4df9a2d260 = L.rectangle(
-                [[47.050000000000004, -53.849999999999994], [47.15, -53.75]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_cf034b2d910135c2f89d6c4df9a2d260.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.8<hr style='margin:3px 0'>Lightning (last 24 h): 3 lit pixels, about 1.7 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.4 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 93% | wind 4.3 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_8b2ebaeee90ffe900913d57b4087abf9 = L.rectangle(
-                [[47.050000000000004, -53.75], [47.15, -53.650000000000006]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_8b2ebaeee90ffe900913d57b4087abf9.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.7<hr style='margin:3px 0'>Lightning (last 24 h): 4 lit pixels, about 2.2 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 48.2 mm in the 7 days before; 0 days since rain<br>Temp 4.3 &deg;C | humidity 90% | wind 4.3 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_d4e7a77a9a9a8a657565cac6d92fa2b5 = L.rectangle(
-                [[47.050000000000004, -53.55], [47.15, -53.45]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_d4e7a77a9a9a8a657565cac6d92fa2b5.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.6 mm in the 7 days before; 0 days since rain<br>Temp 4.1 &deg;C | humidity 91% | wind 4.7 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_c5996e8275e53023e2a4a50887826c93 = L.rectangle(
-                [[47.050000000000004, -53.449999999999996], [47.15, -53.35]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_c5996e8275e53023e2a4a50887826c93.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.4<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.6 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 93% | wind 3.6 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_b677a842228879338e859ae5963c3380 = L.rectangle(
-                [[47.050000000000004, -53.349999999999994], [47.15, -53.25]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_b677a842228879338e859ae5963c3380.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.3<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.5 mm in the 7 days before; 0 days since rain<br>Temp 3.2 &deg;C | humidity 95% | wind 4.4 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_558f6a52e178749d215de8693af888ce = L.rectangle(
-                [[47.050000000000004, -53.25], [47.15, -53.150000000000006]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_558f6a52e178749d215de8693af888ce.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.2<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 50.6 mm in the 7 days before; 0 days since rain<br>Temp 3.4 &deg;C | humidity 93% | wind 6.0 m/s (forecast)<br>NDVI 0.74 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_8048982fb7b12295ad866c723366f51f = L.rectangle(
-                [[47.150000000000006, -53.449999999999996], [47.25, -53.35]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_8048982fb7b12295ad866c723366f51f.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.2, lon -53.4<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 53.6 mm in the 7 days before; 0 days since rain<br>Temp 3.4 &deg;C | humidity 94% | wind 3.8 m/s (forecast)<br>NDVI 0.72 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_869e7ddf8e6220ea08ae2a7643e6a7bc = L.rectangle(
-                [[47.150000000000006, -53.349999999999994], [47.25, -53.25]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_869e7ddf8e6220ea08ae2a7643e6a7bc.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.2, lon -53.3<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 51.9 mm in the 7 days before; 0 days since rain<br>Temp 3.5 &deg;C | humidity 93% | wind 3.1 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_65158164cdd3379d595fb4cb48bd32b8 = L.rectangle(
-                [[47.150000000000006, -53.25], [47.25, -53.150000000000006]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_65158164cdd3379d595fb4cb48bd32b8.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.2, lon -53.2<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 51.9 mm in the 7 days before; 0 days since rain<br>Temp 3.2 &deg;C | humidity 94% | wind 3.4 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_c4b55f61dac4b73ae7941091bf8a035e = L.rectangle(
-                [[47.25, -53.449999999999996], [47.349999999999994, -53.35]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_c4b55f61dac4b73ae7941091bf8a035e.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.3, lon -53.4<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 51.9 mm in the 7 days before; 0 days since rain<br>Temp 3.4 &deg;C | humidity 93% | wind 3.8 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_832fdca72d81dc63163768db265b45db = L.rectangle(
-                [[47.25, -53.349999999999994], [47.349999999999994, -53.25]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_832fdca72d81dc63163768db265b45db.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.3, lon -53.3<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 54.1 mm in the 7 days before; 0 days since rain<br>Temp 3.3 &deg;C | humidity 93% | wind 4.0 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var rectangle_d4d595ff64ccd5f10d9de47a699c131d = L.rectangle(
-                [[47.25, -53.25], [47.349999999999994, -53.150000000000006]],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 0.5}
-            ).addTo(map_bfe8d4d27bf6357a10cfce8fa283b4ee);
-        
-    
-            rectangle_d4d595ff64ccd5f10d9de47a699c131d.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.3, lon -53.2<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 51.2 mm in the 7 days before; 0 days since rain<br>Temp 3.3 &deg;C | humidity 93% | wind 3.2 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var feature_group_767b20016fa2068a1b3b45179df8d92f = L.featureGroup(
+            var feature_group_1d3b4a26143154bafb207b1925c7e22f = L.featureGroup(
                 {
 }
             );
         
     
-            var circle_marker_b3b66b9d6b06f3e88dc7d031df26349d = L.circleMarker(
+            var circle_marker_ecb55206f712c892005112d96677c2e1 = L.circleMarker(
                 [45.4, -73.7],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_b3b66b9d6b06f3e88dc7d031df26349d.bindTooltip(
+            circle_marker_ecb55206f712c892005112d96677c2e1.bindTooltip(
                 `<div>
-                     <b>0.03%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.6 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 5.1 &deg;C | humidity 73% | wind 5.5 m/s (forecast)<br>NDVI 0.56 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.03%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.5 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 4.5 &deg;C | humidity 76% | wind 5.6 m/s (forecast)<br>NDVI 0.56 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -658,15 +494,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var circle_marker_3dc1d1161ffa228d21ec33a680019f08 = L.circleMarker(
+            var circle_marker_04c12ab00710ae65f17e52cd46efd7c9 = L.circleMarker(
                 [45.4, -73.6],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_3dc1d1161ffa228d21ec33a680019f08.bindTooltip(
+            circle_marker_04c12ab00710ae65f17e52cd46efd7c9.bindTooltip(
                 `<div>
-                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.6 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 4.6 &deg;C | humidity 73% | wind 4.3 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.5 mm last 24 h, 2.5 mm in the 7 days before; 3 days since rain<br>Temp 3.9 &deg;C | humidity 76% | wind 4.4 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -674,15 +510,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var circle_marker_78e3f7e735903e188cf06b8a58e62d4d = L.circleMarker(
+            var circle_marker_f2a7439172e80fc376b8f0f9e5ed3e83 = L.circleMarker(
                 [45.4, -73.5],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_78e3f7e735903e188cf06b8a58e62d4d.bindTooltip(
+            circle_marker_f2a7439172e80fc376b8f0f9e5ed3e83.bindTooltip(
                 `<div>
-                     <b>0.04%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.4 mm last 24 h, 3.1 mm in the 7 days before; 3 days since rain<br>Temp 4.6 &deg;C | humidity 72% | wind 3.8 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.04%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.4, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 3.4 mm last 24 h, 3.1 mm in the 7 days before; 3 days since rain<br>Temp 4.2 &deg;C | humidity 73% | wind 3.9 m/s (forecast)<br>NDVI 0.51 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -690,15 +526,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var circle_marker_f6947b49d50116525b4f2535694316a5 = L.circleMarker(
+            var circle_marker_b2633fdd63b86505cab7d8789a6f9961 = L.circleMarker(
                 [45.5, -73.7],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_f6947b49d50116525b4f2535694316a5.bindTooltip(
+            circle_marker_b2633fdd63b86505cab7d8789a6f9961.bindTooltip(
                 `<div>
-                     <b>0.17%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 4.1 &deg;C | humidity 70% | wind 3.3 m/s (forecast)<br>NDVI 0.49 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.14%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 2.8 &deg;C | humidity 76% | wind 3.2 m/s (forecast)<br>NDVI 0.49 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -706,15 +542,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var circle_marker_99a855d7252db35d426f3eae2a65bb52 = L.circleMarker(
+            var circle_marker_03c3714009b87a6407f7c6df23778ae4 = L.circleMarker(
                 [45.5, -73.6],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_99a855d7252db35d426f3eae2a65bb52.bindTooltip(
+            circle_marker_03c3714009b87a6407f7c6df23778ae4.bindTooltip(
                 `<div>
-                     <b>0.19%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 4.0 &deg;C | humidity 70% | wind 3.1 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.16%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.5 mm in the 7 days before; 7 days since rain<br>Temp 2.8 &deg;C | humidity 75% | wind 3.1 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -722,15 +558,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var circle_marker_588c478a1f35ff390cf33ddec1b04bd0 = L.circleMarker(
+            var circle_marker_30c6d73df7a3dbee81133e74a43bd2fe = L.circleMarker(
                 [45.5, -73.5],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_588c478a1f35ff390cf33ddec1b04bd0.bindTooltip(
+            circle_marker_30c6d73df7a3dbee81133e74a43bd2fe.bindTooltip(
                 `<div>
-                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.6 mm last 24 h, 1.9 mm in the 7 days before; 7 days since rain<br>Temp 4.4 &deg;C | humidity 72% | wind 3.2 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.06%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.5, lon -73.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.5 mm last 24 h, 1.9 mm in the 7 days before; 7 days since rain<br>Temp 3.4 &deg;C | humidity 73% | wind 3.3 m/s (forecast)<br>NDVI 0.43 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -738,15 +574,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var circle_marker_6efb7cc32acaf14e8b03352514269273 = L.circleMarker(
+            var circle_marker_c20a506c72462c9d95b9aebda8672aaa = L.circleMarker(
                 [45.6, -73.7],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_6efb7cc32acaf14e8b03352514269273.bindTooltip(
+            circle_marker_c20a506c72462c9d95b9aebda8672aaa.bindTooltip(
                 `<div>
-                     <b>0.30%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 1.7 mm last 24 h, 1.0 mm in the 7 days before; 7 days since rain<br>Temp 4.0 &deg;C | humidity 73% | wind 3.0 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.27%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.7<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 1.7 mm last 24 h, 1.0 mm in the 7 days before; 7 days since rain<br>Temp 2.3 &deg;C | humidity 78% | wind 3.0 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
@@ -754,383 +590,15 @@ NDVI composite 2026-09-14 (monthly Colab file) | page built 2026-11-15 07:09 UTC
             );
         
     
-            var circle_marker_a02b1de48fc2eeeb0cb77d85c9588d4d = L.circleMarker(
+            var circle_marker_7e168d1715cd5d41d9da37c960a5fb87 = L.circleMarker(
                 [45.6, -73.6],
                 {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
+            ).addTo(feature_group_1d3b4a26143154bafb207b1925c7e22f);
         
     
-            circle_marker_a02b1de48fc2eeeb0cb77d85c9588d4d.bindTooltip(
+            circle_marker_7e168d1715cd5d41d9da37c960a5fb87.bindTooltip(
                 `<div>
-                     <b>0.34%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.1 mm last 24 h, 1.3 mm in the 7 days before; 7 days since rain<br>Temp 4.2 &deg;C | humidity 71% | wind 3.0 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_7fe7cdb5656af75edc113f9b78318c9a = L.circleMarker(
-                [46.9, -54.1],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_7fe7cdb5656af75edc113f9b78318c9a.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -54.1<hr style='margin:3px 0'>Lightning (last 24 h): 5 lit pixels, about 2.8 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 43.6 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 94% | wind 3.7 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_fd0379495f079f1a520f6bd2262c0a8a = L.circleMarker(
-                [46.9, -54.0],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_fd0379495f079f1a520f6bd2262c0a8a.bindTooltip(
-                `<div>
-                     <b>0.03%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -54.0<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 51.2 mm in the 7 days before; 0 days since rain<br>Temp 3.7 &deg;C | humidity 93% | wind 3.4 m/s (forecast)<br>NDVI 0.79 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_e84465c80a28fc314772600b19803596 = L.circleMarker(
-                [46.9, -53.9],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_e84465c80a28fc314772600b19803596.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -53.9<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 51.2 mm in the 7 days before; 0 days since rain<br>Temp 4.9 &deg;C | humidity 88% | wind 5.3 m/s (forecast)<br>NDVI 0.79 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_22de5bdf75b11c2ea282c484ce1dcacd = L.circleMarker(
-                [46.9, -53.6],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_22de5bdf75b11c2ea282c484ce1dcacd.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -53.6<hr style='margin:3px 0'>Lightning (last 24 h): 4 lit pixels, about 2.2 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 44.1 mm in the 7 days before; 0 days since rain<br>Temp 5.2 &deg;C | humidity 86% | wind 5.8 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_ea713a488982dd39e19f97229aafc631 = L.circleMarker(
-                [46.9, -53.5],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_ea713a488982dd39e19f97229aafc631.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 46.9, lon -53.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 44.1 mm in the 7 days before; 0 days since rain<br>Temp 4.3 &deg;C | humidity 90% | wind 4.4 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_ede6ebe80ef1141174d549a1e26bfc37 = L.circleMarker(
-                [47.0, -54.1],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_ede6ebe80ef1141174d549a1e26bfc37.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -54.1<hr style='margin:3px 0'>Lightning (last 24 h): 5 lit pixels, about 2.8 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 42.6 mm in the 7 days before; 0 days since rain<br>Temp 3.9 &deg;C | humidity 91% | wind 4.1 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_51d7e35ba4b8a4db7879bb1d18c58ce5 = L.circleMarker(
-                [47.0, -54.0],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_51d7e35ba4b8a4db7879bb1d18c58ce5.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -54.0<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 47.2 mm in the 7 days before; 0 days since rain<br>Temp 2.8 &deg;C | humidity 95% | wind 3.9 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_fc2cfb3b23c50f1d81d045d78617f941 = L.circleMarker(
-                [47.0, -53.9],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_fc2cfb3b23c50f1d81d045d78617f941.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.9<hr style='margin:3px 0'>Lightning (last 24 h): 7 lit pixels, about 3.9 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.1 mm in the 7 days before; 0 days since rain<br>Temp 3.2 &deg;C | humidity 94% | wind 3.8 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_033134d7281e625979b2e04e5eaedc2b = L.circleMarker(
-                [47.0, -53.8],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_033134d7281e625979b2e04e5eaedc2b.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.8<hr style='margin:3px 0'>Lightning (last 24 h): 5 lit pixels, about 2.8 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 50.4 mm in the 7 days before; 0 days since rain<br>Temp 5.1 &deg;C | humidity 86% | wind 5.6 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_6fe6b0e40f16841dfd504fbfd6cab43e = L.circleMarker(
-                [47.0, -53.6],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_6fe6b0e40f16841dfd504fbfd6cab43e.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.6<hr style='margin:3px 0'>Lightning (last 24 h): 4 lit pixels, about 2.2 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 45.0 mm in the 7 days before; 0 days since rain<br>Temp 4.6 &deg;C | humidity 89% | wind 4.7 m/s (forecast)<br>NDVI 0.76 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_294a834e01eed54bcb21bbf81be787f8 = L.circleMarker(
-                [47.0, -53.5],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_294a834e01eed54bcb21bbf81be787f8.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.0, lon -53.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 46.7 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 93% | wind 3.7 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_105b30c6a14a90627ee57ff4abe2348d = L.circleMarker(
-                [47.1, -53.8],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_105b30c6a14a90627ee57ff4abe2348d.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.8<hr style='margin:3px 0'>Lightning (last 24 h): 3 lit pixels, about 1.7 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.4 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 93% | wind 4.3 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_145fa3eee3a053108f26e2b0a65d8d0f = L.circleMarker(
-                [47.1, -53.7],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_145fa3eee3a053108f26e2b0a65d8d0f.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.7<hr style='margin:3px 0'>Lightning (last 24 h): 4 lit pixels, about 2.2 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 48.2 mm in the 7 days before; 0 days since rain<br>Temp 4.3 &deg;C | humidity 90% | wind 4.3 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_7fd131b1946998238e239a94aea6364b = L.circleMarker(
-                [47.1, -53.5],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_7fd131b1946998238e239a94aea6364b.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.5<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.6 mm in the 7 days before; 0 days since rain<br>Temp 4.1 &deg;C | humidity 91% | wind 4.7 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_86e89cfd4b89324441d9992bf0104115 = L.circleMarker(
-                [47.1, -53.4],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_86e89cfd4b89324441d9992bf0104115.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.4<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.6 mm in the 7 days before; 0 days since rain<br>Temp 3.6 &deg;C | humidity 93% | wind 3.6 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_92b4f247a519218c71492761d98d95b6 = L.circleMarker(
-                [47.1, -53.3],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_92b4f247a519218c71492761d98d95b6.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.3<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 49.5 mm in the 7 days before; 0 days since rain<br>Temp 3.2 &deg;C | humidity 95% | wind 4.4 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_205abc4cdb0a5005b4488ead8d712717 = L.circleMarker(
-                [47.1, -53.2],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_205abc4cdb0a5005b4488ead8d712717.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.1, lon -53.2<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 50.6 mm in the 7 days before; 0 days since rain<br>Temp 3.4 &deg;C | humidity 93% | wind 6.0 m/s (forecast)<br>NDVI 0.74 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_a87b7a98b4f764c3b6dcdb1a1d42c445 = L.circleMarker(
-                [47.2, -53.4],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_a87b7a98b4f764c3b6dcdb1a1d42c445.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.2, lon -53.4<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 53.6 mm in the 7 days before; 0 days since rain<br>Temp 3.4 &deg;C | humidity 94% | wind 3.8 m/s (forecast)<br>NDVI 0.72 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_efe223d1a9958105adda74a1e6db9cc7 = L.circleMarker(
-                [47.2, -53.3],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_efe223d1a9958105adda74a1e6db9cc7.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.2, lon -53.3<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 51.9 mm in the 7 days before; 0 days since rain<br>Temp 3.5 &deg;C | humidity 93% | wind 3.1 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_e01edbf577710527875f1d92bf42d3ea = L.circleMarker(
-                [47.2, -53.2],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_e01edbf577710527875f1d92bf42d3ea.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.2, lon -53.2<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 51.9 mm in the 7 days before; 0 days since rain<br>Temp 3.2 &deg;C | humidity 94% | wind 3.4 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_19606e5e94322c3e88593cf437a45559 = L.circleMarker(
-                [47.3, -53.4],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_19606e5e94322c3e88593cf437a45559.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.3, lon -53.4<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.1 mm last 24 h, 51.9 mm in the 7 days before; 0 days since rain<br>Temp 3.4 &deg;C | humidity 93% | wind 3.8 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_eb173258c3f27f6319dd502050fa7d81 = L.circleMarker(
-                [47.3, -53.3],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_eb173258c3f27f6319dd502050fa7d81.bindTooltip(
-                `<div>
-                     <b>0.01%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.3, lon -53.3<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 54.1 mm in the 7 days before; 0 days since rain<br>Temp 3.3 &deg;C | humidity 93% | wind 4.0 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-            var circle_marker_a2033f2cf13c5fbe95172a67aff2116f = L.circleMarker(
-                [47.3, -53.2],
-                {"bubblingMouseEvents": true, "color": "#a88b00", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe14d", "fillOpacity": 0.95, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3.2, "stroke": true, "weight": 0.7}
-            ).addTo(feature_group_767b20016fa2068a1b3b45179df8d92f);
-        
-    
-            circle_marker_a2033f2cf13c5fbe95172a67aff2116f.bindTooltip(
-                `<div>
-                     <b>0.02%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>NL | lat 47.3, lon -53.2<hr style='margin:3px 0'>Lightning (last 24 h): 2 lit pixels, about 1.1 ground-like flashes (3x3 cells)<br>Rain: 0.2 mm last 24 h, 51.2 mm in the 7 days before; 0 days since rain<br>Temp 3.3 &deg;C | humidity 93% | wind 3.2 m/s (forecast)<br>NDVI 0.75 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T02:30Z
+                     <b>0.29%</b> chance a lightning fire follows (next 3 days, in the 3x3 cells around)<br>QC | lat 45.6, lon -73.6<hr style='margin:3px 0'>Lightning (last 24 h): 1 lit pixels, about 0.6 ground-like flashes (3x3 cells)<br>Rain: 2.0 mm last 24 h, 1.3 mm in the 7 days before; 7 days since rain<br>Temp 2.6 &deg;C | humidity 75% | wind 3.1 m/s (forecast)<br>NDVI 0.65 (composite 2026-09-14) | fires within 50 km, 30 days: 0<br>Model v7 | inputs as of 2026-11-15T11:00Z
                  </div>`,
                 {
   "sticky": true,
